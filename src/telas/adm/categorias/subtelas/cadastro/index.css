@@ -1,0 +1,11 @@
+@import url(../../../../../../assets/css/style.css);
+
+.container{    
+    justify-content: center; 
+    
+}
+
+.container form{
+    display: flex;
+    flex-direction: column;
+}
