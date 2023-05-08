@@ -1,0 +1,21 @@
+@import url(../../../../assets/css/style.css);
+
+header .container{
+	display: flex;
+	justify-content: center;
+	
+}
+.listaCategorias{
+  display: flex;		
+  justify-content:center;  
+  margin-top: 30px;
+}
+
+
+.listaCategorias .container{
+	flex-direction: column;
+}
+
+tr {
+  background-color: aqua;
+}

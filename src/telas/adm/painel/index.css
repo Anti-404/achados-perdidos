@@ -1,0 +1,18 @@
+@import url(../../../../assets/css/style.css);
+header .container{
+	justify-content:center;  	
+}
+
+header .container h1{
+	text-align: center;
+	
+}
+.conteudo{
+  display:flex;
+  justify-content:center;    
+}
+
+.conteudo .container{
+        flex-direction: column;        
+
+}
