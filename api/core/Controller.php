@@ -30,23 +30,6 @@ class Controller {
         $base .= Config::BASE_DIR;
         
         return $base;
-    }
-
-    private function _render($folder, $viewName, $viewData = []) {
-        if(file_exists('../src/views/'.$folder.'/'.$viewName.'.php')) {
-            extract($viewData);
-            $render = fn($vN, $vD = []) => $this->renderPartial($vN, $vD);
-            $base = $this->getBaseUrl();
-            require '../src/views/'.$folder.'/'.$viewName.'.php';
-        }
-    }
-
-    private function renderPartial($viewName, $viewData = []) {
-        $this->_render('partials', $viewName, $viewData);
-    }
-
-    public function render($viewName, $viewData = []) {
-        $this->_render('pages', $viewName, $viewData);
-    }
+    }    
 
 }

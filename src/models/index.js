@@ -1,12 +1,12 @@
 export default class Model{
-    constructor(tabela) {
+    constructor(nameController) {
         this.path = "http://localhost/smd/projeto/api/public/";  
-        this.tabela = tabela;
+        this.nameController = nameController;
      }
 
 
-     async pegarUm(id){
-      const endpoint = `${this.path}${this.tabela}/get/${id}`;
+     async get(id){
+      const endpoint = `${this.path}${this.nameController}/get/${id}`;
               
         try {            
             const response = await fetch(endpoint);           
@@ -18,11 +18,9 @@ export default class Model{
           }     
       }
 
+    async getAll(){
 
-   async pegarTodos(){
-
-        const endpoint = `${this.path}${this.tabela}`;
-        
+        const endpoint = `${this.path}${this.nameController}`;             
         try {            
             const response = await fetch(endpoint);           
             
@@ -34,22 +32,22 @@ export default class Model{
 
      }
 
-     inserir(endRedirec, campos){       
-      const endpoint = `${this.path}${this.tabela}/insert`;      
+     insert(addressRedirecting, fields){       
+      const endpoint = `${this.path}${this.nameController}/insert`;      
 
-      let dados = campos;     
+      let data = fields;     
 
       jQuery.ajax({              
         type:'POST',
         url:endpoint,
-        data:dados,
-        success:function(resposta){          
-          if(!resposta.error){                              
+        data:data,
+        success:function(response){          
+          if(!response.error){                              
             alert("Cadastrado com Sucesso");
-            window.location.href = endRedirec;
+            window.location.href = addressRedirecting;
 
           }else{
-              alert(resposta.error);
+              alert(response.error);
           }     
 
           
@@ -58,48 +56,48 @@ export default class Model{
       });
       
 
-   }
+    }
 
-   editar(endRedirec, campos){
-    const endpoint = `${this.path}${this.tabela}/update`;
+    update(addressRedirecting, fields){
+    const endpoint = `${this.path}${this.nameController}/update`;
                    
-      const dados =  campos;            
+      const data =  fields;            
       
       jQuery.ajax({              
         type:'POST',
         url:endpoint,
-        data:dados,
-        success:function(resposta){          
-          if(!resposta.error){                              
+        data:data,
+        success:function(response){          
+          if(!response.error){                              
             alert("Editado com Sucesso");                 
-            window.location.href = `${endRedirec}`;
+            window.location.href = `${addressRedirecting}`;
 
           }else{
-              alert(resposta.error);
+              alert(response.error);
           }
           
         }       
 
       });      
 
- }
+    }
 
- excluir(endRedirec, id){
+  excluir(addressRedirecting, id){
   
-  const endpoint = `${this.path}${this.tabela}/delete/${id}`;
+  const endpoint = `${this.path}${this.nameController}/delete/${id}`;
 
   try {            
     
     jQuery.ajax({              
       type:'GET',
       url:endpoint,
-      success:function(resposta){          
-        if(!resposta.error){                              
+      success:function(response){          
+        if(!response.error){                              
           alert("Excluido com Sucesso");                           
-          window.location.href = `${endRedirec}`;
+          window.location.href = `${addressRedirecting}`;
 
         }else{
-            alert(resposta.error);
+            alert(response.error);
         }
         
       }       
@@ -110,6 +108,6 @@ export default class Model{
       console.log(e);
     }
 
-}
+  }
 
 }

@@ -3,20 +3,19 @@ use core\Router;
 
 $router = new Router();
 
-$router->get('/categorias', 'CategoriasController@index'); 
-$router->get('/categorias/get/{id}', 'CategoriasController@get'); 
-$router->get('/categorias/delete/{id}', 'CategoriasController@delete'); 
-$router->post('/categorias/update', 'CategoriasController@update');
-$router->post('/categorias/insert', 'CategoriasController@insert');
+$router->get('/category', 'CategoryController@index'); 
+$router->get('/category/get/{id}', 'CategoryController@get'); 
+$router->get('/category/delete/{id}', 'CategorysController@delete'); 
+$router->post('/category/update', 'CategoryController@update');
+$router->post('/category/insert', 'CategoryController@insert');
 
 
-$router->get('/objetos', 'ObjetosController@index'); 
-$router->get('/objetos/get/{id}', 'ObjetosController@get'); 
-$router->get('/objetos/delete/{id}', 'ObjetosController@delete'); 
-$router->post('/objetos/update', 'ObjetosController@update');
-$router->post('/objetos/insert', 'ObjetosController@insert');
-$router->get('/objetos/getallbycategory/{idcategoria}', 'ObjetosController@getAllByCategory');
+$router->get('/thing', 'ThingController@index'); 
+$router->get('/thing/get/{id}', 'ThingController@get'); 
+$router->get('/thing/delete/{id}', 'ThingController@delete'); 
+$router->post('/thing/update', 'ThingController@update');
+$router->post('/thing/insert', 'ThingController@insert');
+$router->get('/thing/getallbycategory/{categoryid}', 'ThingController@getAllByCategory');
+$router->get('/thing/getallreserved', 'ThingController@getAllReserved');
 
-
-
-$router->post('/adms/login', 'AdmsController@login'); 
+$router->post('/admin/login', 'AdminController@login'); 

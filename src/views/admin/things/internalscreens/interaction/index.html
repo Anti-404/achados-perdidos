@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head class = "restricted-admin">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
+    <link rel="stylesheet" href="index.css">
+
+    <title></title>
+</head>
+<body class="body">  
+    <header>
+        <div class="container">
+            <h1></h1>
+        </div>
+    </header>
+
+    <section>
+        <div class="container">    
+            <form action="" method="post">           
+                
+                <form action="">
+                    <!--
+                    <figure>
+                        <a href="image-address">
+                            <img src="" alt="" id="img" id="image-address" />
+                            <figcaption></figcaption>
+                        </a>
+                    </figure>                      
+                    -->
+                    <label for="image-address">End IMG</label>
+                    <input type="text" name="image_address" id="image-address"> 
+
+                    <fieldset>
+                        <label for="local">Local</label>
+                        <input type="text" name="local" id="local">                    
+                    </fieldset>
+                    
+                    <fieldset>
+                        <label for="list-categories">Categoria</label>
+                        <select name="category_id" id="list-categories"></select>
+                        <button id="register-categories-button">+</button>
+                    </fieldset>
+    
+                    <fieldset>
+                        <label for="description">Descrição</label><br>
+                        <textarea name="description" cols="30" rows="10" id="description"></textarea>
+                    </fieldset>   
+                    
+                    <fieldset>
+                        <label for="returned-status">Retirado</label>
+                        <input type="checkbox" name="returned_status" id="returned-status" >
+                    </fieldset> 
+
+                    <fieldset>
+                        <label for="reserved-status">Reservado</label>
+                        <input type="checkbox" name="reserved_status" id="reserved-status" >
+                    </fieldset> 
+                    
+                </form>
+                
+                <button id="update-button" disabled >Editar</button>
+                <button id="delete-button">Excluir</button>
+            </form>
+            
+        </div>
+    </section>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>	
+    <script type = "module" src="index.js" ></script>
+    <script src="../../../../../../assets/js/utilities.js"></script>
+</body>
+</html>

@@ -2,27 +2,27 @@ import Model from '../index.js';
 
 export default class ModelLogin extends Model{
     constructor() {
-        super('adms');
+        super('admin');
      }
 
-     logar(endRedirec, campos){          
+     login(addressRedirecting, fields){          
         
-        const endpoint = `${this.path}${this.tabela}/login`;       
+        const endpoint = `${this.path}${this.nameController}/login`;       
         
-        let dados = campos;
+        let data = fields;
           
           jQuery.ajax({
             
             type:'POST',
             url:endpoint,
-            data:dados,
-            success:function(resposta){
+            data:data,
+            success:function(response){
 
-              if(!resposta.error){                                  
-                localStorage.setItem("hash", resposta.result.hash);
-                window.location.href = endRedirec;
+              if(!response.error){                                  
+                localStorage.setItem("hash", response.result.hash);
+                window.location.href = addressRedirecting;
               }else{
-                  alert(resposta.error);
+                  alert(response.error);
               }
               
             }

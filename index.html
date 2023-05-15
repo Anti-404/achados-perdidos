@@ -4,41 +4,42 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="index.css">
     <title>Achados e Perdidos</title>
 </head>
 <body>
    <header>
         <div class="container">
             <div class="logo">
-                <a href=""><img src="assets/imgs/logo.png" /></a>
+                <a href=""><img src="assets/imgs/logo.png" width="40px"/></a></br>
+                <span>Achados Perdidos</span>                
             </div>            
-            
-            <div class="barraPesquisa">
+                
+            <div class="search-bar">
                 <input type="text" />
                 <button>P</button>
             </div>
-                                    
         </div>
     </header>
 
-    <section class="categorias">
+    <main>  
         <div class="container">
-            <ul id = "listaCategorias"></ul> 
-        </div>
-    </section>
-
-    <div class="listaObjetos">
-        <div class="container">
-         
-        </div>
-    </div>
-
-    <footer class="rodape">
-        <div class="container">
-            <div class="footer_copy">
-                Coyright - Todos os direitos reservados - Desenvolvido por: <a href="">ANTI-404</a>
+            
+            <ul id = "categories-list"></ul>
+                
+            <div class="filter-lost-reserved">           
+                    <span class="ativado">Perdidos</span>           
+                    <span>Reservados</span> 
             </div>
+            
+            <div class="things-list"></div>
+        </div>
+    </main>
+           
+
+    <footer class="footer">
+        <div class="container">
+            <span> Coyright - Todos os direitos reservados - Desenvolvido por: <a href="">ANT-404</a></span>
         </div>
     </footer>
     

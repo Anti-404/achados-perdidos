@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head class = "restricted-admin">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
+    <title>Cadastro de Objetos</title>
+</head>
+<body class="body">    
+    <header>
+        <div class="container">
+            <h1>Cadastro de Objetos</h1>
+        </div>
+    </header>
+    
+    <section>   
+
+        <div class="container" >  
+                    
+            <form method="post" id="thing-form" enctype="multipart/form-data" >
+                
+                <label for="">End IMG</label>                
+                <input type="file" name="image_address" id="image-address">                              
+                
+                <fieldset>
+                    <label for="">Categoria</label>
+                    <select name="category_id" id="category-id"></select>
+                    <button id="register-categories-button">+</button>
+                </fieldset>
+
+                <fieldset>
+                    <label for="">Local</label>
+                    <input type="text" name="local" id="local">                    
+                </fieldset>
+
+                <fieldset>
+                    <label for="">Descrição</label><br>
+                    <textarea name="description" cols="30" rows="10" id="description"></textarea>
+                </fieldset>
+
+                <button id="save-button">Salvar</button>
+            </form>            
+        </div>
+    </section>
+
+    <script src="../../../../../../assets/js/jquery-3.6.4.min.js" ></script>
+    <script type = "module" src="index.js" ></script>    
+    <script src="../../../../../../assets/js/utilities.js"></script>
+</body>
+</html>

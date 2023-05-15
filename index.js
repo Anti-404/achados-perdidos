@@ -1,72 +1,103 @@
-import ModelCategorias from './src/models/categorias/index.js';
-import ModelObjetos from './src/models/objetos/index.js';
+import ModelCategories from './src/models/categories/index.js';
+import ModelThings from './src/models/things/index.js';
 
 class Home {
     constructor(){
-        this.modelCategorias = new ModelCategorias();               
-        this.modelObjetos = new ModelObjetos();               
+        this.modelCategories = new ModelCategories();               
+        this.modelThings = new ModelThings();               
     }
 
-    async listarCategorias(){         
-        let ul = document.querySelector("#listaCategorias");
-        const todasCategorias = await this.modelCategorias.pegarTodos();
+    async categoriesList(){         
+        let ul = document.querySelector("#categories-list");
+        const allCategories = await this.modelCategories.getAll();
         
-        if(!todasCategorias.error){                        
-            for (let i = 0; i < todasCategorias.result.length; ++i) {  
+        if(!allCategories.error){                        
+            for (let i = 0; i < allCategories.result.length; ++i) {  
                 let li = document.createElement("li"); 
-                li.setAttribute("data-id",todasCategorias.result[i].id);              
-                li.appendChild(document.createTextNode(todasCategorias.result[i].nome));
+                let a = document.createElement("a");                
+                a.setAttribute("data-id",allCategories.result[i].id);
+                a.appendChild(document.createTextNode((allCategories.result[i].name)));
+                li.appendChild(a);
                 ul.appendChild(li);                 
             }           
             
-       }       
+       }    
+       
+       const a =  document.querySelectorAll("ul li a");
+
+        for (let i = 0; i < a.length; i++) {
+
+            a[i].addEventListener("click", async (e)=>{            
+                let categoriesId = e.target.getAttribute("data-id")     
+                const allThings = await this.modelThings.getThingsByCategoryId(categoriesId);  
+                let thingsList = document.querySelector(".things-list");              
+
+                thingsList.innerHTML = "";
+                               
+                if(!allThings.error){ 
+                    
+                    for (let i = 0; i < allThings.result.length; ++i) {
+                        let a = document.createElement("a");
+                        let figure = document.createElement("figure");
+                        let img = document.createElement("img");
+                        let figCaption = document.createElement("figcaption");             
+                                                                      
+                        a.setAttribute("id",allThings.result[i].id);                        
+                        img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
+                        img.setAttribute("alt",allThings.result[i].description);                                                        
+                        figCaption.appendChild(document.createTextNode(allThings.result[i].description));
+                         
+                        figure.appendChild(img);
+                        figure.appendChild(figCaption);
+                        a.appendChild(figure);
+                        thingsList.appendChild(a);
+                        
+                    }  
+        
+                    
+                } 
+                
+            });            
+        }
                
                 
             
-        }   
+    }   
         
-        async listarObjetos(){
+    async thingsList(){
 
-            const todosObjetos = await this.modelObjetos.pegarTodos();            
-            let divListaObjetos = document.querySelector(".listaObjetos .container");
+            const allThings = await this.modelThings.getAll();            
+            let  thingsList = document.querySelector(".things-list");
 
-            if(!todosObjetos.error){ 
+            if(!allThings.error){ 
                 
-                for (let i = 0; i < todosObjetos.result.length; ++i) {
+                for (let i = 0; i < allThings.result.length; ++i) {
                     let a = document.createElement("a");
                     let figure = document.createElement("figure");
                     let img = document.createElement("img");
                     let figCaption = document.createElement("figcaption");             
-    
-                    let count = 0;
-                    for (let prop in todosObjetos.result[i]) {                    
-                        
-                        a.setAttribute("id",todosObjetos.result[i].id);
-                        img.setAttribute("src",todosObjetos.result[i].img_endereco);
-                        img.setAttribute("alt",todosObjetos.result[i].descricao);                                                        
-                        ++count;                    
-                    }                                  
-                    
+                                                                  
+                    a.setAttribute("id",allThings.result[i].id);                        
+                    img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
+                    img.setAttribute("alt",allThings.result[i].description);                                                        
+                    figCaption.appendChild(document.createTextNode(allThings.result[i].description));
+                     
                     figure.appendChild(img);
                     figure.appendChild(figCaption);
                     a.appendChild(figure);
-                    divListaObjetos.appendChild(a);
+                    thingsList.appendChild(a);
                     
                 }
     
                 
             } 
 
-        }
-       
-       
-
     }
+       
+       
 
-
-
-
+}
 
 const home = new Home();
-home.listarCategorias();
-home.listarObjetos();
+home.categoriesList();
+home.thingsList();
