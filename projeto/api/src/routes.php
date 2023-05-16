@@ -18,4 +18,6 @@ $router->post('/thing/insert', 'ThingController@insert');
 $router->get('/thing/getallbycategory/{categoryid}', 'ThingController@getAllByCategory');
 $router->get('/thing/getallreserved', 'ThingController@getAllReserved');
 
+$router->get('/admin/get/{id}', 'AdminController@get');
 $router->post('/admin/login', 'AdminController@login'); 
+$router->post('/admin/update', 'AdminController@update'); 

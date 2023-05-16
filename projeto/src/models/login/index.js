@@ -1,6 +1,6 @@
 import Model from '../index.js';
 
-export default class ModelLogin extends Model{
+export default class ModelAdmins extends Model{
     constructor() {
         super('admin');
      }
@@ -31,5 +31,4 @@ export default class ModelLogin extends Model{
           
        
       }
-
 }

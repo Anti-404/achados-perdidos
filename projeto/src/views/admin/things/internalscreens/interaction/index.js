@@ -1,11 +1,11 @@
 import ModelCategories from '../../../../../models/categories/index.js';
-import modelThings from '../../../../../models/things/index.js';
+import ModelThings from '../../../../../models/things/index.js';
 
 class IntThing{    
 
     constructor(){        
         this.modelCategories = new  ModelCategories();
-        this.modelThings = new  modelThings();
+        this.modelThings = new  ModelThings();
         this.identifier = this.retrieveIdBbyUrl();                        
     }
 
@@ -77,8 +77,6 @@ class IntThing{
     } 
     
     async update(){
-        
-        const thing = await this.modelThings.get(this.identifier); 
 
         document.querySelector("#update-button").addEventListener("click",(e)=>{  
             e.preventDefault();
