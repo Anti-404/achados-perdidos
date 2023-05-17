@@ -102,7 +102,7 @@ class IntThing{
     }
 
     delete(){
-        let addressRedirecting = "http://localhost/smd/projeto/src/views/admin/things/";
+        let addressRedirecting = "src/views/admin/things/";
 
         document.querySelector("#delete-button").addEventListener("click",(e)=>{  
             e.preventDefault();

@@ -38,7 +38,7 @@ class Categories{
     goToCategoryRegister(){
         document.querySelector("#register-categories-button").addEventListener("click",()=>{  
 
-            window.location.href = "http://localhost/smd/projeto/src/views/admin/categories/internalscreens/register/";
+            window.location.href = "src/views/admin/categories/internalscreens/register/";
         });
         
     }
@@ -50,7 +50,7 @@ class Categories{
             tds[i].addEventListener("click", (e)=>{            
                 let id = e.target.getAttribute("data")     
                 
-                window.location.href = `http://localhost/smd/projeto/src/views/admin/categorias/internalscreens/interaction/?id=${id}`;
+                window.location.href = `src/views/admin/categories/internalscreens/interaction/?id=${id}`;
                 
             });            
         }       

@@ -15,7 +15,7 @@ class Home {
             for (let i = 0; i < allCategories.result.length; ++i) {  
                 let li = document.createElement("li"); 
                 let a = document.createElement("a");                
-                a.setAttribute("data-id",allCategories.result[i].id);
+                a.setAttribute("data-id",allCategories.result[i].id);                                
                 a.appendChild(document.createTextNode((allCategories.result[i].name)));
                 li.appendChild(a);
                 ul.appendChild(li);                 
@@ -42,7 +42,7 @@ class Home {
                         let img = document.createElement("img");
                         let figCaption = document.createElement("figcaption");             
                                                                       
-                        a.setAttribute("id",allThings.result[i].id);                        
+                        a.setAttribute("data-id",allThings.result[i].id);                                                            
                         img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
                         img.setAttribute("alt",allThings.result[i].description);                                                        
                         figCaption.appendChild(document.createTextNode(allThings.result[i].description));
@@ -72,18 +72,19 @@ class Home {
             if(!allThings.error){ 
                 
                 for (let i = 0; i < allThings.result.length; ++i) {
-                    let a = document.createElement("a");
+                    let a  = document.createElement("a");
                     let figure = document.createElement("figure");
                     let img = document.createElement("img");
                     let figCaption = document.createElement("figcaption");             
-                                                                  
-                    a.setAttribute("id",allThings.result[i].id);                        
+                    
+                    a.setAttribute("href",`./src/views/users/things/show-object/?id=${allThings.result[i].id}`);
+                    figure.setAttribute("data-id",allThings.result[i].id);                        
                     img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
                     img.setAttribute("alt",allThings.result[i].description);                                                        
                     figCaption.appendChild(document.createTextNode(allThings.result[i].description));
                      
                     figure.appendChild(img);
-                    figure.appendChild(figCaption);
+                    figure.appendChild(figCaption); 
                     a.appendChild(figure);
                     thingsList.appendChild(a);
                     
@@ -93,7 +94,24 @@ class Home {
             } 
 
     }
-       
+    
+    goToThing(){
+        //let figuresThing = document.querySelectorAll("figure");
+        const array = document.getElementsByTagName("figure");        
+        //console.log(document.getElementsByTagName("figure").length);
+        console.log(array);
+
+        //for (let i = 0; i < figuresThing.length; i++) {
+            
+            //let idThing = figuresThing[i].getAttribute("data-id");            
+            //figuresThing[i].addEventListener("click",(e)=>{                            
+              
+                //window.location.href = `http://localhost/smd/projeto/src/views/users/things/show-object/${idThing}`;           
+                
+            //});    
+       // }        
+        
+    }
        
 
 }
@@ -101,3 +119,4 @@ class Home {
 const home = new Home();
 home.categoriesList();
 home.thingsList();
+

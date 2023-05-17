@@ -1,4 +1,4 @@
-import ModelCategory from '../../../../../models/category/index.js';
+import ModelCategory from '../../../../../models/categories/index.js';
 
 class CategoriesInteraction{
 
@@ -19,7 +19,7 @@ class CategoriesInteraction{
                 
         let category = await this.modelCategory.get(this.identifier);     
         if(!category.erro){
-            document.querySelector("#name").value = categoria.result.name;
+            document.querySelector("#name").value = category.result.name;
         }else{
             alert(category.erro);
         }        
@@ -28,7 +28,7 @@ class CategoriesInteraction{
     } 
     
     update(){
-        const addressRedirecting = "http://localhost/smd/projeto/src/views/admin/categories/";
+        const addressRedirecting = "src/views/admin/categories/";
         const id = this.identifier;
 
         document.querySelector("#update-button").addEventListener("click",(e)=>{                        
@@ -42,7 +42,7 @@ class CategoriesInteraction{
     }
 
     delete(){
-        const addressRedirecting = "http://localhost/smd/projeto/src/views/admin/categories/";
+        const addressRedirecting = "src/views/admin/categories/";
         const id = this.identifier;
 
         document.querySelector("#delete-button").addEventListener("click",(e)=>{            

@@ -5,7 +5,7 @@ $router = new Router();
 
 $router->get('/category', 'CategoryController@index'); 
 $router->get('/category/get/{id}', 'CategoryController@get'); 
-$router->get('/category/delete/{id}', 'CategorysController@delete'); 
+$router->get('/category/delete/{id}', 'CategoryController@delete'); 
 $router->post('/category/update', 'CategoryController@update');
 $router->post('/category/insert', 'CategoryController@insert');
 

@@ -44,7 +44,7 @@ class Things{
             tds[i].addEventListener("click", (e)=>{            
                 let id = e.target.getAttribute("data")     
                 
-                window.location.href = `http://localhost/smd/projeto/src/views/admin/things/internalscreens/interaction/?id=${id}`;
+                window.location.href = `src/views/admin/things/internalscreens/interaction/?id=${id}`;
                 
             });            
         }       
@@ -56,7 +56,7 @@ class Things{
     goToRegisterthing(){
         document.querySelector("#register-things-button").addEventListener("click",(e)=>{            
             e.preventDefault();              
-            window.location.href = "http://localhost/smd/projeto/src/views/admin/things/internalscreens/register/";           
+            window.location.href = "src/views/admin/things/internalscreens/register/";           
             
         });
         

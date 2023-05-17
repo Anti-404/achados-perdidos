@@ -13,12 +13,19 @@ window.onload = ()=>{
                 }
             }           
         }
- 
+
+        baseURL(){
+            let containerHeader = document.querySelector("head");
+            let base = document.createElement("base");
+            base.setAttribute("href","http://localhost/smd/projeto/");
+            containerHeader.appendChild(base);
+        } 
 
 
     }
 
-    const utilities = new Utilities();
+    const utilities = new Utilities();    
     utilities.checkRegistered();    
+    utilities.baseURL();    
     
 }

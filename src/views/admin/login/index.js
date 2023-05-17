@@ -16,7 +16,7 @@
             e.preventDefault();        
             const user = document.querySelector('#user').value;
             const password = document.querySelector('#password').value; 
-            const addressRedirecting = "http://localhost/smd/projeto/src/views/admin/panel/";
+            const addressRedirecting = "src/views/admin/panel/";
             
             const modelAdm = new ModelAdm();            
             modelAdm.login(addressRedirecting, {user, password});
@@ -29,7 +29,7 @@
             if(localStorage.getItem("hash")){
                 
        
-                window.location.href = "http://localhost/smd/projeto/src/views/admin/panel";
+                window.location.href = "src/views/admin/panel";
        
                 
             }         

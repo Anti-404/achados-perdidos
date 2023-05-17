@@ -16,27 +16,27 @@ class Panel{
     async ListThingsReserved(){
 
         const allThings = await this.modelThings.getThingsReserved();                    
-
-        let ul = document.querySelector("#reserved ul");
+        let  thingsListReserved = document.querySelector(".reserved");        
 
         if(!allThings.error){ 
                         
             for (let i = 0; i < allThings.result.length; ++i) {
-                let li = document.createElement("li");
+                                
+                let figure = document.createElement("figure");
                 let img = document.createElement("img");
-                let span = document.createElement("span");                
-                let returnButton = document.createElement("button")
+                let figCaption = document.createElement("figcaption");  
+                let returnButton = document.createElement("button");
   
-                li.setAttribute("id",allThings.result[i].id);                    
-                img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                    
+                figure.setAttribute("id",allThings.result[i].id);                    
+                img.setAttribute("src","api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                    
                 img.setAttribute("alt",allThings.result[i].description);
-                span.appendChild(document.createTextNode(allThings.result[i].description));
+                figCaption.appendChild(document.createTextNode(allThings.result[i].description));
                 returnButton.appendChild(document.createTextNode("OK"));                                                                            
                 
-                li.appendChild(img);
-                li.appendChild(span);
-                li.appendChild(returnButton);
-                ul.appendChild(li);
+                figure.appendChild(img);                
+                figure.appendChild(figCaption);                
+                figure.appendChild(returnButton);                
+                thingsListReserved.appendChild(figure);
                 
             }
 

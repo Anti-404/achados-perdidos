@@ -82,7 +82,7 @@ export default class Model{
 
     }
 
-  excluir(addressRedirecting, id){
+    delete(addressRedirecting, id){
   
   const endpoint = `${this.path}${this.nameController}/delete/${id}`;
 
@@ -108,6 +108,6 @@ export default class Model{
       console.log(e);
     }
 
-  }
+    }
 
 }
