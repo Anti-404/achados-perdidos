@@ -12,8 +12,26 @@
 
 <body class="body">    
     <header>
-        <div class="conteudo">
-            <h1> Painel de Controle  </h1>
+        <div class="container">
+            <div class="logo">
+                <a href=""><img src="../../../../assets/imgs/logo.png" width="40px"/></a></br>
+                <span>Painel de Controler </span>                
+            </div>            
+                
+            <div class="sandwich-menu">
+                <div class="sandwich-menu-button" style="width: 30px; height: 30px; background-color: aqua;">
+                                  
+                </div>
+                <div class="sandwich-menu-body" style="display: none;">
+                    <ul>
+                        <li>Administrador</li>
+                        <li><a href="http://localhost/smd/projeto/src/views/admin/things/internalscreens/profile/"> Perfil</a></li>
+                        <li> <a href="http://localhost/smd/projeto/src/views/admin/things/internalscreens/discard/">Descarte</a></li>                        
+                        <li id="exit-button">Sair</li>
+                    </ul>
+                </div>                
+            </div>
+
         </div>
     </header>
     
@@ -43,8 +61,7 @@
                     </ul> 
                  
                                
-            </section>
-            <button id="exit-button">Sair</button>
+            </section>            
             <section>   
                 <h2>Reservados</h2>     
                 <div id="reserved">

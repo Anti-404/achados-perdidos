@@ -3,6 +3,8 @@ namespace src\controllers;
 
 use \core\Controller;
 use \src\models\Things;
+use DateTime;
+use DateTimeZone;
 
 
 class ThingController extends Controller {
@@ -123,6 +125,41 @@ class ThingController extends Controller {
                         'reserved_status' => $item['reserved_status'],                                           
                         'category_id' => $item['category_id']
                 ];
+            }
+        }
+        
+             
+        echo json_encode($this->array);
+        exit;
+        
+    }
+
+    public function getAllDiscard() {
+        $timezone = new DateTimeZone('America/Sao_Paulo');
+
+        $things = Things::select()->orderBy('id','desc')->get();  
+
+               
+        if(count($things) > 0){
+            
+            foreach($things as $item) {
+                $dateThing = new DateTime($item['date']);
+                $now = new DateTime('now', $timezone);                               
+                $diffDates =  $now->format('U') - $dateThing->format('U');
+                
+                 if($diffDates > 259200){ // 259200 == 3 dias | 15768000 == 6 meses
+                    $this->array['result'][] = [
+                        'id' => $item['id'],                
+                            'image_address' => $item['image_address'],
+                            'description' => $item['description'],
+                            'local' => $item['local'],
+                            'date' => $item['date'],
+                            'reserved_status' => $item['reserved_status'],                                           
+                            'category_id' => $item['category_id'],
+                            'diff_dates' => $diffDates
+                    ];
+                 }
+                
             }
         }
         

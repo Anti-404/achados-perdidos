@@ -45,9 +45,24 @@ class Panel{
         
     }
     
+    toggleSandwichMenu(){
+        
+        document.getElementsByClassName("sandwich-menu-button")[0].addEventListener("click",(e)=>{
+            let  sandwichMenu= document.querySelectorAll(".sandwich-menu div")[1];
+            
+            if(sandwichMenu.classList.toggle("visible")){ 
+                sandwichMenu.setAttribute("style","display:block");
+            }else{
+                sandwichMenu.setAttribute("style","display:none");
+            }
+            
+        });
+               
+    }
 
 }
 
 const panel = new Panel();
 panel.exit();
 panel.ListThingsReserved();
+panel.toggleSandwichMenu();
