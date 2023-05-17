@@ -35,6 +35,21 @@ export default class ModelThings extends Model{
       }
 
  }
+
+ async getThingsDiscard(){
+
+  const endpoint = `${this.path}${this.nameController}/getalldiscard`;
+  
+  try {            
+      const response = await fetch(endpoint);           
+      
+      return await response.json();
+                  
+    } catch(e) {
+      console.log(e);
+    }
+
+}
  
  insert(addressRedirecting, fileds){       
   const endpoint = `${this.path}${this.nameController}/insert`;         
