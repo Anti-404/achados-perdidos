@@ -16,16 +16,14 @@ class Categories{
                 let tr = document.createElement("tr");                
                 let td1 = document.createElement("td"); 
                 let td2 = document.createElement("td"); 
-                
-                td1.setAttribute("data",allCategories.result[i].id); 
-                td2.setAttribute("data",allCategories.result[i].id);
-                
+                                                
+                td1.appendChild(document.createTextNode(allCategories.result[i].id));
+                td2.appendChild(document.createTextNode(allCategories.result[i].name));
+                tr.setAttribute("data-id",allCategories.result[i].id);                
 
                 tr.appendChild(td1);
                 tr.appendChild(td2);
-                td1.appendChild(document.createTextNode(allCategories.result[i].id));
-                td2.appendChild(document.createTextNode(allCategories.result[i].name));
-
+                
                 tableBody.appendChild(tr);
                 
             }
@@ -33,6 +31,23 @@ class Categories{
             
         }       
 
+    }
+
+    
+    goToInteraction(){  
+        const trs =  document.querySelectorAll("tbody tr");
+        
+        for (const tr of trs) {            
+            tr.addEventListener("click", (e)=>{            
+                let id = tr.getAttribute("data-id");  
+                
+                window.location.href = `src/views/admin/categories/internalscreens/interaction/?id=${id}`;
+                
+         });          
+            
+        }
+        
+       
     }
 
     goToCategoryRegister(){
@@ -43,25 +58,10 @@ class Categories{
         
     }
 
-    goToInteraction(){  
-        const tds =  document.querySelectorAll("tbody");
-        for (let i = 0; i < tds.length; i++) {
-
-            tds[i].addEventListener("click", (e)=>{            
-                let id = e.target.getAttribute("data")     
-                
-                window.location.href = `src/views/admin/categories/internalscreens/interaction/?id=${id}`;
-                
-            });            
-        }       
-
-        
-       
-    }
 
 }
 
 const categories = new Categories();
 categories.goToCategoryRegister();
-categories.showAll();
+await categories.showAll();
 categories.goToInteraction();

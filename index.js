@@ -29,7 +29,13 @@ class Home {
 
             a[i].addEventListener("click", async (e)=>{            
                 let categoriesId = e.target.getAttribute("data-id")     
-                const allThings = await this.modelThings.getThingsByCategoryId(categoriesId);  
+                let allThings;
+                if(categoriesId == "0"){
+                    allThings = await this.modelThings.getAll();
+                }else{
+                    allThings = await this.modelThings.getThingsByCategoryId(categoriesId);  
+                }
+
                 let thingsList = document.querySelector(".things-list");              
 
                 thingsList.innerHTML = "";

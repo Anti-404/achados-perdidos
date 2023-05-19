@@ -13,42 +13,28 @@
 <body class="body">
     <header>
         <div class="container">
-            <h1> Objetos  </h1> 
+            <h1> Gerenciar Objetos  </h1> 
+            
+            <div class="search-bar">
+                <input type="text" />
+                <button>P</button>
+            </div>
+            
+            <div class="categories">                
+                <select name="categories-list" id="categories-list">
+                    <option value="0">Categorias</option>
+                </select>                
+            </div>    
         </div>
     </header> 
-
-    <section class="categories">
-        <div class="container">
-            <ul id = "categories-list"></ul> 
-        </div>
-    </section>
-
-    <div class="things-list">
-        <section class="container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>                                                
-                        <th>Imagem</th>
-                        <th>Descrição</th>
-                        <th>Local</th>
-                        <th>Data</th>
-                        <th>Retirado</th>
-                        <th>Reservado</th>
-                        <th>Categoria</th>
-                        
-                    </tr>
-                </thead>
-
-                <tbody>
-                    
-                </tbody>
-
-            </table> 
-            <button id="register-things-button"> + </button>
+    
+    <main>
+        <section class="container">            
+            <div class="things-list">                
+            </div>
         </section>
-    </div>
-
+        <button id="register-things-button">+</button>
+    </main>
     <script type="module" src="index.js" ></script>
     <script src="../../../../assets/js/utilities.js"></script>
 </body>

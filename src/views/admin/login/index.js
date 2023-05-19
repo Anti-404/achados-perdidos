@@ -29,7 +29,7 @@
             if(localStorage.getItem("hash")){
                 
        
-                window.location.href = "src/views/admin/panel";
+                window.location.href = "../panel/";
        
                 
             }         

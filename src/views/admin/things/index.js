@@ -9,47 +9,53 @@ class Things{
         this.tableBody = document.querySelector("tbody");
     }
 
-    async showAll(){        
-        
-        const allThings = await this.modelThings.getAll();
-        
-        if(!allThings.error){  
-                      
+    
+    async thingsList(){
+
+        const allThings = await this.modelThings.getAll();            
+        let  thingsList = document.querySelector(".things-list");
+
+        if(!allThings.error){ 
+            
             for (let i = 0; i < allThings.result.length; ++i) {
-                let tr = document.createElement("tr");
-                const tds = [];
-
-                let count = 0;
-                for (let prop in allThings.result[i]) {                    
-                    tds.push(document.createElement("td"));                                       
-                    tds[count].setAttribute("data",allThings.result[i].id);
-                    tds[count].appendChild(document.createTextNode(allThings.result[i][prop]));
-                    tr.appendChild(tds[count]);
-                    ++count;                    
-                }                                  
-
-                this.tableBody.appendChild(tr);
+                let div  = document.createElement("div");
+                let p  = document.createElement("p");                
+                let figure = document.createElement("figure");
+                let img = document.createElement("img");
+                let figCaption = document.createElement("figcaption");             
+                                                       
+                div.setAttribute("data-id",allThings.result[i].id);                        
+                p.appendChild(document.createTextNode("Código: "+allThings.result[i].id));                  
+                img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
+                img.setAttribute("alt",allThings.result[i].description);                                                        
+                figCaption.appendChild(document.createTextNode(allThings.result[i].description));
+                 
+                figure.appendChild(img);
+                figure.appendChild(figCaption); 
+                div.appendChild(p);
+                div.appendChild(figure);
+                thingsList.appendChild(div);
                 
             }
 
             
-        }       
+        } 
 
     }
 
     goToInteraction(){  
-        const tds =  document.querySelectorAll("tbody");
-        for (let i = 0; i < tds.length; i++) {
-
-            tds[i].addEventListener("click", (e)=>{            
-                let id = e.target.getAttribute("data")     
-                
-                window.location.href = `src/views/admin/things/internalscreens/interaction/?id=${id}`;
-                
-            });            
-        }       
-
         
+        let thingsList =  document.querySelectorAll(".things-list div");       
+        
+       
+        thingsList.forEach((thing)=>{
+            thing.addEventListener("click", (e)=>{   
+                let id = thing.getAttribute("data-id")            
+                window.location.href = `src/views/admin/things/internalscreens/interaction/?id=${id}`;
+                    
+            });    
+        })
+       
        
     }
 
@@ -62,65 +68,79 @@ class Things{
         
     }
 
-    async getCategories(){         
-        
-        let ul = document.querySelector("#categories-list");
+    
+    async categoriesList(){         
+        let select = document.querySelector("#categories-list");
         const allCategories = await this.modelCategories.getAll();
-
+        
         if(!allCategories.error){                        
-            for (let i = 0; i < allCategories.result.length; ++i) {  
-                let li = document.createElement("li"); 
-                li.setAttribute("data-id",allCategories.result[i].id);              
-                li.appendChild(document.createTextNode(allCategories.result[i].name));
-                ul.appendChild(li);                 
+            for (let i = 0; i < allCategories.result.length; ++i) {                  
+                let option = document.createElement("option");                                                              
+                option.setAttribute("value",allCategories.result[i].id);
+                option.appendChild(document.createTextNode((allCategories.result[i].name)));                                 
+                select.appendChild(option);                 
             }           
             
-       }
-                            
-       const lis =  document.querySelectorAll("ul li");
+       }           
+             
 
-        for (let i = 0; i < lis.length; i++) {
+        select.addEventListener("change", async (e)=>{      
+            
+            let categoriesId = e.target.value;
+            let allThings;
 
-            lis[i].addEventListener("click", async (e)=>{            
-                let categoryId = e.target.getAttribute("data-id")     
-                const allThings = await this.modelThings.getThingsByCategoryId(categoryId);
-                               
-                document.querySelector("tbody").innerHTML = "";
+            if(categoriesId == "0"){
+                allThings = await this.modelThings.getAll();      
+            }else{
+                allThings = await this.modelThings.getThingsByCategoryId(categoriesId);  
+            }
+            let thingsList = document.querySelector(".things-list");              
+
+            thingsList.innerHTML = "";
+                         
+            if(!allThings.error){ 
                 
-                if(!allThings.error){ 
+                for (let i = 0; i < allThings.result.length; ++i) {
+                    let a = document.createElement("a");
+                    let p = document.createElement("p");
+                    let figure = document.createElement("figure");
+                    let img = document.createElement("img");
+                    let figCaption = document.createElement("figcaption");             
+                                                            
+                    a.setAttribute("data-id",allThings.result[i].id);                                                            
+                    p.appendChild(document.createTextNode("Código: "+allThings.result[i].id));                                                            
+                    img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
+                    img.setAttribute("alt",allThings.result[i].description);                                                        
+                    figCaption.appendChild(document.createTextNode(allThings.result[i].description));
                     
-                    for (let i = 0; i < allThings.result.length; ++i) {
-                        let tr = document.createElement("tr");
-                        const tds = [];
-        
-                        let count = 0;
-                        for (let prop in allThings.result[i]) {                    
-                            tds.push(document.createElement("td"));                                       
-                            tds[count].setAttribute("data",allThings.result[i].id);
-                            tds[count].appendChild(document.createTextNode(allThings.result[i][prop]));
-                            tr.appendChild(tds[count]);
-                            ++count;                    
-                        }                                  
-        
-                        this.tableBody.appendChild(tr);
-                        
-                    }
-        
+                    figure.appendChild(img);
+                    figure.appendChild(figCaption);
                     
-                } 
+                    a.appendChild(p);
+                    a.appendChild(figure);
+                    thingsList.appendChild(a);
+                    
+                }  
+    
                 
-            });            
-        }
+            } 
+            
+        });            
        
-
-    }
+               
+                
+            
+    } 
 
 }
 
 const things = new Things();
 
-things.showAll();
+things.categoriesList();
+await things.thingsList(); // 1: "await" VERY IMPORTANT: explanation below.*
 things.goToInteraction();
 things.goToRegisterthing();
-things.getCategories();
 
+/*
+1: As this method is asynchronous, it passes to the bottom method before creating the elements, so the bottom method cannot access them. So you need to put the "await"
+*/

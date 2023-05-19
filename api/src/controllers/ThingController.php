@@ -15,7 +15,7 @@ class ThingController extends Controller {
 
     public function index() {
         
-        $things = Things::select()->orderBy('id','desc')->get();                
+       $things = Things::select()->where('reserved_status','0')->orderBy('id','desc')->get();                       
         
         
         if(count($things) > 0){
