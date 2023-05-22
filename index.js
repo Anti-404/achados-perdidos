@@ -71,8 +71,9 @@ class Home {
     }   
         
     async thingsList(){
-
-            const allThings = await this.modelThings.getAll();            
+        
+            const allThings = await this.modelThings.getAll();           
+            
             let  thingsList = document.querySelector(".things-list");
 
             if(!allThings.error){ 
@@ -101,21 +102,97 @@ class Home {
 
     }
     
+    thingsByFilters(){
+            let  allThings = '';           
+            let  thingsFilters = document.querySelectorAll(".filter-things span");                        
+            let  thingsList = document.querySelector(".things-list");
+
+            thingsFilters.forEach(async(filter, index) => {
+                let status = filter.getAttribute('status');
+                
+                if (status == "1") {              
+                
+                    switch (index) {                        
+                        case 0:                                                       
+                            allThings = await this.modelThings.getAll();                            
+                            break;
+
+                        case 1:                            
+                            allThings = await this.modelThings.getThingsReserved();                            
+                            
+                            break;
+
+                        case 2:                            
+                            allThings = await this.modelThings.getThingsReturned();
+                            
+                            break;
+                    
+                        default:
+                            break;
+                    }
+                }
+
+                thingsList.innerHTML = '';
+
+            if(!allThings.error){ 
+                
+                for (let i = 0; i < allThings.result.length; ++i) {
+                    let a  = document.createElement("a");
+                    let figure = document.createElement("figure");
+                    let img = document.createElement("img");
+                    let figCaption = document.createElement("figcaption");             
+                    
+                    a.setAttribute("href",`./src/views/users/things/show-object/?id=${allThings.result[i].id}`);
+                    figure.setAttribute("data-id",allThings.result[i].id);                        
+                    img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
+                    img.setAttribute("alt",allThings.result[i].description);                                                        
+                    figCaption.appendChild(document.createTextNode(allThings.result[i].description));
+                     
+                    figure.appendChild(img);
+                    figure.appendChild(figCaption); 
+                    a.appendChild(figure);
+                    thingsList.appendChild(a);
+                    
+                }
+    
+                
+            }
+
+        });
+            
+             
+
+    }
+
+    filterThings(){
+        let  thingsFilters = document.querySelectorAll(".filter-things span");                        
+        
+        thingsFilters.forEach((filter) => {
+            filter.addEventListener('click', ()=>{
+                for (let i = 0; i < thingsFilters.length; i++) {                    
+                    thingsFilters[i].setAttribute('status','0');
+                }
+                filter.setAttribute('status','1');
+                this.thingsByFilters();
+            });
+        });
+
+    }
+    
     goToThing(){
-        //let figuresThing = document.querySelectorAll("figure");
+        
         const array = document.getElementsByTagName("figure");        
-        //console.log(document.getElementsByTagName("figure").length);
         console.log(array);
 
-        //for (let i = 0; i < figuresThing.length; i++) {
+        for (let i = 0; i < figuresThing.length; i++) {
             
-            //let idThing = figuresThing[i].getAttribute("data-id");            
-            //figuresThing[i].addEventListener("click",(e)=>{                            
+            let idThing = figuresThing[i].getAttribute("data-id");            
+            figuresThing[i].addEventListener("click",(e)=>{                            
               
-                //window.location.href = `http://localhost/smd/projeto/src/views/users/things/show-object/${idThing}`;           
+                window.location.href = `http://localhost/smd/projeto/src/views/users/things/show-object/${idThing}`;           
                 
-            //});    
-       // }        
+            });    
+        }        
         
     }
        
@@ -125,4 +202,4 @@ class Home {
 const home = new Home();
 home.categoriesList();
 home.thingsList();
-
+home.filterThings();

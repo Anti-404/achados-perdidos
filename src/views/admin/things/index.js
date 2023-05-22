@@ -1,12 +1,15 @@
 import ModelThings from '../../../models/things/index.js';
 import ModelCategories from '../../../models/categories/index.js';
+import Controller from '../../../core/controller/index.js';
 
-class Things{
+class Things extends Controller{
 
-    constructor(){        
+    constructor(){    
+        super();
         this.modelThings = new  ModelThings();
         this.modelCategories = new  ModelCategories();
-        this.tableBody = document.querySelector("tbody");
+        this.tableBody = document.querySelector("tbody"); 
+        this.currentPage = this.retrieveURLCurrentPage();       
     }
 
     
@@ -51,7 +54,7 @@ class Things{
         thingsList.forEach((thing)=>{
             thing.addEventListener("click", (e)=>{   
                 let id = thing.getAttribute("data-id")            
-                window.location.href = `src/views/admin/things/internalscreens/interaction/?id=${id}`;
+                window.location.href = `src/views/admin/things/internalscreens/interaction/?id=${id}&&prevPage=${this.currentPage}`;
                     
             });    
         })
@@ -62,7 +65,7 @@ class Things{
     goToRegisterthing(){
         document.querySelector("#register-things-button").addEventListener("click",(e)=>{            
             e.preventDefault();              
-            window.location.href = "src/views/admin/things/internalscreens/register/";           
+            window.location.href = `src/views/admin/things/internalscreens/register/?prevPage=${this.currentPage}`;           
             
         });
         
@@ -130,7 +133,9 @@ class Things{
                
                 
             
-    } 
+
+
+    }    
 
 }
 

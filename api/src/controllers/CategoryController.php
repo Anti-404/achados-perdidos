@@ -57,8 +57,7 @@ class CategoryController extends Controller {
     
     }
 
-    public function delete($id){     
-        
+    public function delete($id){
         if($id) {            
             Categories::delete()->where('id',$id['id'])->execute(); 
             $array['error'] = '';               
@@ -73,10 +72,10 @@ class CategoryController extends Controller {
     
     }
 
-    public function update(){  
-        
-        $id = filter_input(INPUT_POST, 'id');
-        $name = filter_input(INPUT_POST, 'name');
+    public function update(){                  
+        $input = json_decode(file_get_contents('php://input'));
+        $id = $input->id ?? null;
+        $name = $input->name ?? null;                              
         
         $dados = [
             'id' => $id,
@@ -107,7 +106,7 @@ class CategoryController extends Controller {
 
         echo json_encode($this->array);
         exit;
- 
+        
     }
     
     public function insert(){        

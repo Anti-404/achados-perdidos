@@ -1,4 +1,4 @@
-import Model from '../index.js';
+import Model from '../../core/model/index.js';
 
 export default class ModelThings extends Model{
     constructor() {
@@ -50,45 +50,21 @@ export default class ModelThings extends Model{
     }
 
 }
- 
- insert(addressRedirecting, fileds){       
-  const endpoint = `${this.path}${this.nameController}/insert`;         
-  let data = fileds; 
-  jQuery.ajax({              
-    type:'POST',
-    url:endpoint,
-    data:data,
-       
-    success:function(response){          
-      if(!response.error){                              
-        alert("Cadastrado com Sucesso");
-        window.location.href = addressRedirecting;
 
-      }else{
-          alert(response.error);
-      }  
-    },
-    
-    cache: false,
-    contentType: false,
-    processData: false,
-    xhr: function() { 
-        var myXhr = $.ajaxSettings.xhr();
-        if (myXhr.upload) { 
-            myXhr.upload.addEventListener('progress', function() {
-                
-            }, false);
-        }
-        return myXhr;
-    } 
+async getThingsReturned(){
 
-  });
+  const endpoint = `${this.path}${this.nameController}/getallreturned`;
   
+  try {            
+      const response = await fetch(endpoint);           
+      
+      return await response.json();
+                  
+    } catch(e) {
+      console.log(e);
+    }
 
- }
 
-
-
-
-
+  }
+ 
 }

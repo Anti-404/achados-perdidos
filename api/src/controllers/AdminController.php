@@ -51,7 +51,7 @@ class AdminController extends Controller {
             if(isset($data[0]) > 0){                
                 
                 $this->array['result'] = [
-                    'id' => $data[0]['hash'],                
+                    'hash' => $data[0]['hash'],                
                     'user' => $user, 
                     
                 ];

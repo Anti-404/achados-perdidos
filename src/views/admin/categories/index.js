@@ -1,8 +1,11 @@
 import ModelCategories from '../../../models/categories/index.js';
+import Controller from '../../../core/controller/index.js';
 
-class Categories{
+class Categories extends Controller{
     constructor(){        
-        this.modelCategories = new  ModelCategories();
+        super();
+        this.modelCategories = new  ModelCategories();             
+        this.currentPage = this.retrieveURLCurrentPage();        
     } 
     
     async showAll(){    
@@ -41,7 +44,7 @@ class Categories{
             tr.addEventListener("click", (e)=>{            
                 let id = tr.getAttribute("data-id");  
                 
-                window.location.href = `src/views/admin/categories/internalscreens/interaction/?id=${id}`;
+                window.location.href = `src/views/admin/categories/internalscreens/interaction/?id=${id}&&prevPage=${this.currentPage}`;
                 
          });          
             
@@ -51,14 +54,12 @@ class Categories{
     }
 
     goToCategoryRegister(){
-        document.querySelector("#register-categories-button").addEventListener("click",()=>{  
-
-            window.location.href = "src/views/admin/categories/internalscreens/register/";
+        document.querySelector("#register-categories-button").addEventListener("click",()=>{              
+            window.location.href = `src/views/admin/categories/internalscreens/register/?prevPage=${this.currentPage}`
         });
         
     }
-
-
+    
 }
 
 const categories = new Categories();

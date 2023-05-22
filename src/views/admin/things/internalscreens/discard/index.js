@@ -1,7 +1,9 @@
 import ModelThing from '../../../../../models/things/index.js';
+import Controller from '../../../../../core/controller/index.js';
 
-class Discard {
-    constructor(){                     
+class Discard extends Controller{
+    constructor(){              
+        super();       
         this.modelThing = new ModelThing();               
     }
 
@@ -34,10 +36,16 @@ class Discard {
             
         } 
 
-}
+    }
  
+    handlerPageBack(){                
+        document.querySelector("#back").addEventListener('click', ()=>{
+            window.history.back();
+        });
+    }
 
 }   
 
 const discard = new Discard();
 discard.allThingsDiscard();
+discard.handlerPageBack();

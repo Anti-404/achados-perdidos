@@ -1,14 +1,18 @@
 import ModelThings from "../../../models/things/index.js";
-class Panel{
+import Controller from "../../../core/controller/index.js";
+
+class Panel extends Controller{
     constructor(){
-        this.modelThings = new ModelThings();
+        super();
+        this.modelThings = new ModelThings();        
+        this.currentPage = this.retrieveURLCurrentPage();
     } 
 
     exit(){
         document.querySelector("#exit-button").addEventListener("click",()=>{
             localStorage.removeItem("hash");
             alert("Deslogado com sucesso");
-            window.location.href = "http://localhost/smd/projeto/";
+            window.location.href = "http://localhost/smd/projeto/src/views/admin/login";
         });
         
     }
@@ -27,7 +31,7 @@ class Panel{
                 let figCaption = document.createElement("figcaption");  
                 let returnButton = document.createElement("button");
   
-                figure.setAttribute("id",allThings.result[i].id);                    
+                figure.setAttribute("data-id",allThings.result[i].id);                    
                 img.setAttribute("src","api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                    
                 img.setAttribute("alt",allThings.result[i].description);
                 figCaption.appendChild(document.createTextNode(allThings.result[i].description));
@@ -60,9 +64,99 @@ class Panel{
                
     }
 
+    goToProfile(){
+        document.querySelector(".profile-button").addEventListener("click",()=>{  
+
+           window.location.href = `src/views/admin/profile/`;
+
+        });
+        
+    }
+
+    goToDiscardeThings(){
+        document.querySelector(".discard-things-button").addEventListener("click",()=>{  
+
+           window.location.href = `src/views/admin/things/internalscreens/discard/`;
+
+        });
+        
+    }
+
+    goToReturnedThings(){
+        document.querySelector(".returned-things-button").addEventListener("click",()=>{  
+
+           window.location.href = `src/views/admin/things/internalscreens/returned/`;
+
+        });
+        
+    }
+
+    goToCategoryManager(){
+        document.querySelector(".category-manager-button").addEventListener("click",()=>{  
+
+           window.location.href = `src/views/admin/categories/`;
+
+        });
+        
+    }
+
+    goToThingRegister(){
+        document.querySelector(".register-thing-button").addEventListener("click",()=>{  
+            
+           window.location.href = `src/views/admin/things/internalscreens/register/?prevPage=${this.currentPage}`;
+
+        });
+    
+    }
+
+    goToReturnedThing(){
+        document.querySelector(".returned-thing-button").addEventListener("click",()=>{  
+
+           //window.location.href = `src/views/admin/things/internalscreens/returned/`;
+           alert("QR Code");
+
+        });
+        
+    }
+
+    goToManageThings(){
+        document.querySelector(".manage-things-button").addEventListener("click",()=>{  
+
+           window.location.href = `src/views/admin/things/`;
+
+        });
+        
+    } 
+
+    goToInteractionThing(){  
+        
+        let thingsList =  document.querySelectorAll(".reserved figure");       
+        console.log(thingsList)
+       
+        thingsList.forEach((thing)=>{
+            thing.addEventListener("click", (e)=>{   
+                let id = thing.getAttribute("data-id")            
+                window.location.href = `src/views/admin/things/internalscreens/interaction/?id=${id}`;
+                    
+            });    
+        })
+       
+       
+    }
+    
+
 }
 
 const panel = new Panel();
-panel.exit();
-panel.ListThingsReserved();
+await panel.ListThingsReserved();
 panel.toggleSandwichMenu();
+panel.goToProfile();
+panel.goToDiscardeThings();
+panel.goToReturnedThings();
+panel.goToCategoryManager();
+panel.goToThingRegister();
+panel.goToReturnedThing();
+panel.goToManageThings();
+panel.goToInteractionThing();
+
+panel.exit();

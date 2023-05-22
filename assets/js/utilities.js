@@ -19,7 +19,7 @@ window.onload = ()=>{
             let base = document.createElement("base");
             base.setAttribute("href","http://localhost/smd/projeto/");
             containerHeader.appendChild(base);
-        } 
+       } 
 
 
     }

@@ -1,10 +1,13 @@
-import ModelAdmins from '../../../../../models/login/index.js';
+import ModelAdmins from '../../../models/login/index.js';
+import Controller from '../../../core/controller/index.js';
 
-class Profile{    
+class Profile extends Controller{    
 
-    constructor(){                
+    constructor(){     
+        super();
         this.modelAdmins = new  ModelAdmins();  
-        this.identifier = 7;      
+        this.identifier = 7;   
+        this.prevPage = 'src/views/admin/panel/';   
     }
 
     async getUserAdmin(){  
@@ -29,10 +32,8 @@ class Profile{
             let user = document.querySelector("#user").value;
             let password = document.querySelector("#password").value;
             let email = document.querySelector("#email").value;
-                      
-            let addressRedirecting = "http://localhost/smd/projeto/src/views/admin/panel/";
-            
-            this.modelAdmins.update( addressRedirecting, {id, user, password, email }); 
+                         
+            this.modelAdmins.update(this.prevPage, {id, user, password, email }); 
         });
 
 
@@ -50,9 +51,16 @@ class Profile{
 
     }
 
+    handlerPageBack(){                
+        document.querySelector("#back").addEventListener('click', ()=>{
+            window.history.back();
+        });
+    }
+
 }
 
 const profile = new Profile();
 profile.getUserAdmin();
 profile.update();
 profile.enableButton("user", "password", "email");
+profile.handlerPageBack();

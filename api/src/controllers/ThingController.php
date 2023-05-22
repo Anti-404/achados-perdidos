@@ -7,32 +7,40 @@ use DateTime;
 use DateTimeZone;
 
 
-class ThingController extends Controller {
+class ThingController extends Controller {    
 
     public function __construct(){
-        parent::__construct();
+        parent::__construct();               
     }
 
     public function index() {
         
-       $things = Things::select()->where('reserved_status','0')->orderBy('id','desc')->get();                       
-        
-        
-        if(count($things) > 0){
-            foreach($things as $item) {
-                $this->array['result'][] = [
-                    'id' => $item['id'],                
-                    'image_address' => $item['image_address'],
-                    'description' => $item['description'],
-                    'local' => $item['local'],
-                    'date' => $item['date'],
-                    'reserved_status' => $item['reserved_status'],
-                    'returned_status' => $item['returned_status'],                
-                    'category_id' => $item['category_id']
-                ];
+       $things = Things::select()
+       ->where('reserved_status','0')
+       ->where('returned_status','0')
+       ->orderBy('id','desc')->get();      
+       
+       $timezone = new DateTimeZone('America/Fortaleza');
+              
+       if(count($things) > 0){
+                foreach($things as $item) {                    
+                    $diffDates = $this->checkDateDifference($timezone, $item['date'], 259200); 
+
+                    if(!$diffDates){ 
+                    $this->array['result'][] = [
+                        'id' => $item['id'],                
+                        'image_address' => $item['image_address'],
+                        'description' => $item['description'],
+                        'local' => $item['local'],
+                        'date' => $item['date'],
+                        'reserved_status' => $item['reserved_status'],
+                        'returned_status' => $item['returned_status'],                
+                        'category_id' => $item['category_id']
+                    ];
+                }
             }
-        }
         
+        }
              
         echo json_encode($this->array);
         exit;
@@ -76,7 +84,12 @@ class ThingController extends Controller {
               
         if($categoryId) {
            
-            $things = Things::select()->orderBy('id','desc')->where('category_id', $categoryId)->execute();
+            $things = Things::select()
+            ->where('reserved_status','0')
+            ->where('returned_status','0')
+            ->where('category_id', $categoryId)
+            ->orderBy('id','desc')
+            ->execute();
             
             if(count($things) > 0){                
                 
@@ -111,7 +124,36 @@ class ThingController extends Controller {
 
     public function getAllReserved() {
         
-        $things = Things::select()->where('reserved_status','1')->orderBy('id','desc')->get();                
+        $things = Things::select()->where('reserved_status','1')->where('returned_status','0')->orderBy('id','desc')->get();                
+        $timezone = new DateTimeZone('America/Fortaleza');
+        
+        if(count($things) > 0){            
+            foreach($things as $item) {
+                 // 259200 == 3 dias | 15768000 == 6 meses                
+                $diffDates = $this->checkDateDifference($timezone, $item['date'], 259200);
+                if(!$diffDates){ 
+                    $this->array['result'][] = [
+                        'id' => $item['id'],                
+                            'image_address' => $item['image_address'],
+                            'description' => $item['description'],
+                            'local' => $item['local'],
+                            'register_date' => $item['date'],
+                            'reserved_status' => $item['reserved_status'],                                           
+                            'category_id' => $item['category_id']
+                    ];
+                }    
+            }
+        }
+        
+             
+        echo json_encode($this->array);
+        exit;
+        
+    }
+
+    public function getAllReturned() {
+        
+        $things = Things::select()->where('returned_status','1')->orderBy('id','desc')->get();                
         
         
         if(count($things) > 0){
@@ -121,7 +163,7 @@ class ThingController extends Controller {
                         'image_address' => $item['image_address'],
                         'description' => $item['description'],
                         'local' => $item['local'],
-                        'date' => $item['date'],
+                        'register_date' => $item['date'],
                         'reserved_status' => $item['reserved_status'],                                           
                         'category_id' => $item['category_id']
                 ];
@@ -134,20 +176,20 @@ class ThingController extends Controller {
         
     }
 
+
+
     public function getAllDiscard() {
-        $timezone = new DateTimeZone('America/Sao_Paulo');
-
+        
         $things = Things::select()->orderBy('id','desc')->get();  
+        $timezone = new DateTimeZone('America/Fortaleza');
 
-               
         if(count($things) > 0){
             
             foreach($things as $item) {
-                $dateThing = new DateTime($item['date']);
-                $now = new DateTime('now', $timezone);                               
-                $diffDates =  $now->format('U') - $dateThing->format('U');
+                // 259200 == 3 dias | 15768000 == 6 meses                
+                $diffDates = $this->checkDateDifference($timezone, $item['date'], 259200); 
                 
-                 if($diffDates > 259200){ // 259200 == 3 dias | 15768000 == 6 meses
+                 if($diffDates){ 
                     $this->array['result'][] = [
                         'id' => $item['id'],                
                             'image_address' => $item['image_address'],
@@ -184,7 +226,7 @@ class ThingController extends Controller {
     
     }
 
-    public function update(){  
+    public function updateold(){  
         
         $id = filter_input(INPUT_POST, 'id');
         $imageAddress = filter_input(INPUT_POST, 'image_address');        
@@ -287,6 +329,60 @@ class ThingController extends Controller {
                 echo json_encode($this->array);
                 exit;
         }
+    }
+    /*
+    public function update(){   
+        
+        $id = filter_input(INPUT_POST, 'id');
+        $imageAddress = filter_input(INPUT_POST, 'image_address');        
+        $description = filter_input(INPUT_POST, 'description');
+        $local = filter_input(INPUT_POST, 'local');
+        $returnedStatus = filter_input(INPUT_POST, 'returned_status');
+        $reservedStatus = filter_input(INPUT_POST, 'reserved_status');         
+        $categoryId = filter_input(INPUT_POST, 'category_id');
+        if($imageAddress)
+       if(isset($_FILES['image_address'])){
+            $file = $_FILES['image_address'];        
+            $extensionUploadedImage = explode('/',$_FILES['image_address']['type'])[1];            
+                  
+            if(isset($file['tmp_name']) && empty($file['tmp_name']) == false){
+                
+                $imageAddres = '../assets/imgs/'.md5(time().rand(0,99)).'.'.$extensionUploadedImage;        
+                move_uploaded_file($file['tmp_name'], $imageAddres);                   
+                
+
+                if($categoryId)  {   
+                    Things::insert(
+                        [   
+                            'image_address' => $imageAddres,
+                            'description'=>$description,
+                            'local'=>$local,
+                            'category_id'=>$categoryId
+                        ]
+                    )->execute();            
+                            
+
+                } else {
+                    $this->array['error'] = 'data não enviados';
+                } 
+                
+                
+            }       
+            
+                
+                
+                
+                echo json_encode($this->array);
+                exit;
+        }
+    }
+    */
+
+    private function checkDateDifference(DateTimeZone $timezone, $date, $daysLimit){
+        $dateThing = new DateTime($date);
+        $now = new DateTime('now', $timezone);                               
+        $diffDates =  $now->format('U') - $dateThing->format('U');        
+        return ($diffDates > $daysLimit);
     }
 
 }
