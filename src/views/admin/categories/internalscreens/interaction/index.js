@@ -1,18 +1,14 @@
 import ModelCategory from '../../../../../models/categories/index.js';
+import Controller from '../../../../../core/controller/index.js';
 
-class CategoriesInteraction{
+class CategoriesInteraction extends Controller{
 
-    constructor(){        
+    constructor(){     
+        super();   
         this.modelCategory  = new  ModelCategory();
-        this.identifier = this.retrieveURLId();        
-    }
-
-    retrieveURLId(){
-        let url = (window.location.href).split("/");        
-        url = url[url.length-1];
-        let identifier = url.split("=")[1]; 
-    
-        return identifier;    
+        this.identifier = this.retrieveURLId();    
+        this.prevPage = this.getPrevPageURL();        
+        
     }
 
     async getCategoryById(){    
@@ -22,34 +18,36 @@ class CategoriesInteraction{
             document.querySelector("#name").value = category.result.name;
         }else{
             alert(category.erro);
-        }        
-
-        
+        }                
     } 
     
-    update(){
-        const addressRedirecting = "src/views/admin/categories/";
-        const id = this.identifier;
+    update(){        
+        
+        document.querySelector('input[name=id]').value = this.identifier;
 
         document.querySelector("#update-button").addEventListener("click",(e)=>{                        
             e.preventDefault();
 
-            let name = document.querySelector("#name").value;
-            this.modelCategory.update(addressRedirecting,{ id, name}); 
+            let form = document.querySelector('form');
+            
+            let formData = new FormData(form);                                    
+            
+            this.modelCategory.update(this.prevPage,formData);           
         });
 
 
     }
 
-    delete(){
-        const addressRedirecting = "src/views/admin/categories/";
+    delete(){        
         const id = this.identifier;
 
         document.querySelector("#delete-button").addEventListener("click",(e)=>{            
             e.preventDefault();
 
-            this.modelCategory.delete(addressRedirecting, id); 
+            this.modelCategory.delete(this.prevPage, id); 
         });
+
+        
     }
 
     enableButton(){
@@ -58,6 +56,13 @@ class CategoriesInteraction{
         });
 
     }
+
+    handlerPageBack(){                
+        document.querySelector("#back").addEventListener('click', ()=>{
+            window.history.back();            
+        });
+    }
+   
      
 }
 
@@ -66,3 +71,4 @@ categoriesInteraction.getCategoryById();
 categoriesInteraction.update();
 categoriesInteraction.delete();
 categoriesInteraction.enableButton();
+categoriesInteraction.handlerPageBack();

@@ -1,34 +1,34 @@
-import Model from '../index.js';
+import Model from '../../core/model/index.js';
 
 export default class ModelAdmins extends Model{
     constructor() {
         super('admin');
      }
 
-     login(addressRedirecting, fields){          
-        
-        const endpoint = `${this.path}${this.nameController}/login`;       
-        
-        let data = fields;
-          
-          jQuery.ajax({
-            
-            type:'POST',
-            url:endpoint,
-            data:data,
-            success:function(response){
+      async login(formData){
+        const endpoint = `${this.path}${this.nameController}/login`;
 
-              if(!response.error){                                  
-                localStorage.setItem("hash", response.result.hash);
-                window.location.href = addressRedirecting;
-              }else{
-                  alert(response.error);
-              }
-              
-            }
-            
-          });
+        try {
+          let response = await fetch(endpoint, {
+            method: "POST",
+            body: formData,
+          });          
           
-       
-      }
+          response = await response.json();
+
+          if(response.error == ''){ 
+            return response;            
+            
+          }else{
+            alert(response.error);
+            return response;                
+          
+          }
+          
+        } catch (error) {
+          alert(error);
+        }     
+               
+        }
+  
 }

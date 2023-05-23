@@ -1,29 +1,44 @@
-import Model from '../index.js';
+import Model from '../../core/model/index.js';
 
 export default class ModelThings extends Model{
-    constructor() {
+   constructor() {
         super('thing');
    }    
 
-   async getThingsByCategoryId(categoryId){
+  async getThingsByCategoryId(categoryId){
+            
+      const endpoint = `${this.path}${this.nameController}/getallbycategory/${categoryId}`;
+      
+      try {   
+            
+          const response = await fetch(endpoint);          
           
-    const endpoint = `${this.path}${this.nameController}/getallbycategory/${categoryId}`;
-    
-    try {   
-           
-        const response = await fetch(endpoint);          
-        
-        return await response.json();
-                    
-      } catch(e) {
-        console.log(e);
-      }
+          return await response.json();
+                      
+        } catch(e) {
+          console.log(e);
+        }
 
-   }
+  }
 
-   async getThingsReserved(){
+  async getThingsReserved(){
 
-    const endpoint = `${this.path}${this.nameController}/getallreserved`;
+      const endpoint = `${this.path}${this.nameController}/getallreserved`;
+      
+      try {            
+          const response = await fetch(endpoint);           
+          
+          return await response.json();
+                      
+        } catch(e) {
+          console.log(e);
+        }
+
+  }
+
+  async getThingsDiscard(){
+
+    const endpoint = `${this.path}${this.nameController}/getalldiscard`;
     
     try {            
         const response = await fetch(endpoint);           
@@ -34,61 +49,48 @@ export default class ModelThings extends Model{
         console.log(e);
       }
 
- }
+  }
 
- async getThingsDiscard(){
+  async getThingsReturned(){
 
-  const endpoint = `${this.path}${this.nameController}/getalldiscard`;
-  
-  try {            
-      const response = await fetch(endpoint);           
-      
-      return await response.json();
-                  
-    } catch(e) {
-      console.log(e);
-    }
-
-}
- 
- insert(addressRedirecting, fileds){       
-  const endpoint = `${this.path}${this.nameController}/insert`;         
-  let data = fileds; 
-  jQuery.ajax({              
-    type:'POST',
-    url:endpoint,
-    data:data,
-       
-    success:function(response){          
-      if(!response.error){                              
-        alert("Cadastrado com Sucesso");
-        window.location.href = addressRedirecting;
-
-      }else{
-          alert(response.error);
-      }  
-    },
+    const endpoint = `${this.path}${this.nameController}/getallreturned`;
     
-    cache: false,
-    contentType: false,
-    processData: false,
-    xhr: function() { 
-        var myXhr = $.ajaxSettings.xhr();
-        if (myXhr.upload) { 
-            myXhr.upload.addEventListener('progress', function() {
-                
-            }, false);
-        }
-        return myXhr;
-    } 
+    try {            
+        const response = await fetch(endpoint);           
+        
+        return await response.json();
+                    
+      } catch(e) {
+        console.log(e);
+      }
 
-  });
+
+  }
+ 
   
+  async update(addressRedirecting, formData){       
+    const endpoint = `${this.path}${this.nameController}/update`;            
 
- }
+      try {
+        let response = await fetch(endpoint, {
+          method: "POST",            
+          body:  formData
+          
+        });  
+        
+        response = await response.json();
+        
+        if(response.error == ''){
+          alert("Editado com Sucesso");                 
+          window.location.href = addressRedirecting;      
 
-
-
-
+        }else{
+          alert(response.error);                 
+        }
+        
+      } catch (error) {
+        console.log('Erro no codigo do sistema: '+error);
+      }   
+  }
 
 }
