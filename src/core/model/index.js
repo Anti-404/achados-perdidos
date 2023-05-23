@@ -34,7 +34,7 @@ export default class Model{
 
 
     async insert(addressRedirecting, formData){       
-      const endpoint = `${this.path}${this.nameController}/insert`;      
+      const endpoint = `${this.path}${this.nameController}/insert`;            
       
         try {
           const response = await fetch(endpoint, {
@@ -53,11 +53,12 @@ export default class Model{
     
       const data = {};
       formData.forEach(function(value, key){
-        data[key] = value;
+      data[key] = value;
         
       });
-
-      formData = JSON.stringify(data);      
+      
+      formData = JSON.stringify(data);        
+            
 
         try {
           let response = await fetch(endpoint, {
@@ -66,7 +67,7 @@ export default class Model{
           });  
           
           response = await response.json();
-
+          
           if(response.error == ''){
             alert("Editado com Sucesso");                 
             window.location.href = addressRedirecting;      
@@ -74,8 +75,9 @@ export default class Model{
           }else{
             alert(response.error);                 
           }
+          
         } catch (error) {
-          alert(error);
+          console.log(error);
         }   
     }
 

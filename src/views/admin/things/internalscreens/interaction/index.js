@@ -19,11 +19,15 @@ class ThingsInteraction extends Controller{
         const thing = await this.modelThings.get(this.identifier); 
         
         if(!thing.erro){            
+            document.querySelector("#data-id").value = this.identifier;            
+            
+            document.querySelector("form img").setAttribute('src', `${thing.result.image_address}`);            
+
             document.querySelector("#image-address").value = thing.result.image_address;
 
+            await this.selectCategories(thing.result.category_id);            
+            
             document.querySelector("#local").value = thing.result.local;
-
-            await this.selectCategories(thing.result.category_id);
 
             document.querySelector("#description").value = thing.result.description;
             
@@ -78,21 +82,8 @@ class ThingsInteraction extends Controller{
         document.querySelector("#update-button").addEventListener("click",(e)=>{  
             e.preventDefault();
 
-            let id = this.identifier;
-            let imageAddress = document.querySelector("#image-address").value;
-            let local = document.querySelector("#local").value;
-            
-            let categoryId = document.querySelector("#list-categories").value;
-
-            let description = document.querySelector("#description").value;
-            
-            let returnedStatus = (document.querySelector("#returned-status").checked)?1:0;
-            let reservedStatus = (document.querySelector("#reserved-status").checked)?1:0;
-                      
-            
-            this.modelThings.update( this.prevPage, {id:id, image_address:imageAddress, 
-                                     local:local, category_id:categoryId, description:description, 
-                                     returned_status:returnedStatus, reserved_status:reservedStatus}); 
+            let formData = new FormData(document.querySelector('form'));                        
+            this.modelThings.update( this.prevPage, formData); 
         });
 
 

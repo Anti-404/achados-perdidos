@@ -18,48 +18,43 @@
 
     <section>
         <div class="container">    
-            <form action="" method="post">           
-                
-                <form action="">                    
-                    <label for="image-address">End IMG</label>
-                    <input type = "file" name="image_address" id="image-address"> 
+            <form action="" method="post">
+                        
+                        <input type="hidden" name="id" id="data-id">                         
+                        <input type = "hidden" name="image_address" id="image-address">
+                        <img > <br>
 
-                    <fieldset>
-                        <label for="local">Local</label>
-                        <input type="text" name="local" id="local">                    
-                    </fieldset>
-                    
-                    <fieldset>
-                        <label for="list-categories">Categoria</label>
+                        <label for="image-address-update"></label>
+                        <input type = "file" name="image_address_update" id="image-address-update">
+                        <br><br>                                                
+
+                        <label for="list-categories">Categorias</label><br>
                         <select name="category_id" id="list-categories"></select>
                         <button id="register-categories-button">+</button>
-                    </fieldset>
-    
-                    <fieldset>
+                        <br><br>
+                        
+                        <label for="local">Local</label><br>
+                        <input type="text" name="local" id="local">
+                        <br><br>                    
+
                         <label for="description">Descrição</label><br>
                         <textarea name="description" cols="30" rows="10" id="description"></textarea>
-                    </fieldset>   
-                    
-                    <fieldset>
+                        <br><br>
+                  
                         <label for="returned-status">Retirado</label>
-                        <input type="checkbox" name="returned_status" id="returned-status" >
-                    </fieldset> 
+                        <input type="checkbox" name="returned_status" id="returned-status" >                  
 
-                    <fieldset>
-                        <label for="reserved-status">Reservado</label>
-                        <input type="checkbox" name="reserved_status" id="reserved-status" >
-                    </fieldset> 
-                    
-                </form>
+                         <label for="reserved-status">Reservado</label>
+                        <input type="checkbox" name="reserved_status" id="reserved-status" >  
+                        <br><br>                  
                 
-                <button id="update-button" disabled >Editar</button>
-                <button id="delete-button">Excluir</button>
+                        <button id="update-button" disabled >Editar</button>
+                        <button id="delete-button">Excluir</button>
             </form>
             
         </div>
     </section>
-    
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>	
+        
     <script type = "module" src="index.js" ></script>
     <script src="../../../../../../assets/js/utilities.js"></script>
 </body>

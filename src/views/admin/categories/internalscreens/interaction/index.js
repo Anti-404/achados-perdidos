@@ -31,6 +31,7 @@ class CategoriesInteraction extends Controller{
             let form = document.querySelector('form');
             
             let formData = new FormData(form);                                    
+            
             this.modelCategory.update(this.prevPage,formData);           
         });
 

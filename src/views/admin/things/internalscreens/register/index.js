@@ -70,8 +70,8 @@ class ThingRegistration extends Controller{
     save(){        
         document.querySelector("#save-button").addEventListener("click", (e)=>{             
             e.preventDefault();          
-
-            let formData = new FormData(document.querySelector("#thing-form"));                        
+            
+            let formData = new FormData(document.querySelector('form'));                        
                                  
            this.modelThings.insert(this.prevPage, formData);       
             
