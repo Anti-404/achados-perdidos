@@ -60,14 +60,14 @@ class CategoryController extends Controller {
     public function delete($id){
         if($id) {            
             Categories::delete()->where('id',$id['id'])->execute(); 
-            $array['error'] = '';               
+            $this->array['error'] = '';               
 
         } else {
-            $array['error'] = 'ID não enviado';
+            $this->array['error'] = 'ID não enviado';
         } 
         
         
-        echo json_encode($array);
+        echo json_encode($this->array);
         exit;
     
     }

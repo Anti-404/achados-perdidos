@@ -85,7 +85,7 @@ export default class Model{
     async delete(addressRedirecting, id){
   
     const endpoint = `${this.path}${this.nameController}/delete/${id}`;
-
+   
     try {
       let response = await fetch(endpoint, {
         method: "DELETE"

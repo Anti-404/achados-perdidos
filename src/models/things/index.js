@@ -21,6 +21,22 @@ export default class ModelThings extends Model{
 
   }
 
+  async getThingsByCategoryIdAndReserved(categoryId){
+            
+    const endpoint = `${this.path}${this.nameController}/getallbycategoryandreserved/${categoryId}`;
+    
+    try {   
+          
+        const response = await fetch(endpoint);          
+        
+        return await response.json();
+                    
+      } catch(e) {
+        console.log(e);
+      }
+
+}
+
   async getThingsReserved(){
 
       const endpoint = `${this.path}${this.nameController}/getallreserved`;

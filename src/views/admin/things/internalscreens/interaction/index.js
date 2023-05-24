@@ -93,8 +93,7 @@ class ThingsInteraction extends Controller{
         
 
         document.querySelector("#delete-button").addEventListener("click",(e)=>{  
-            e.preventDefault();
-
+            e.preventDefault();            
             this.modelThings.delete(this.prevPage, this.identifier); 
         });
     }

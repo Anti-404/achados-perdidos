@@ -29,7 +29,7 @@ class Things extends Controller{
                                                        
                 div.setAttribute("data-id",allThings.result[i].id);                        
                 p.appendChild(document.createTextNode("Código: "+allThings.result[i].id));                  
-                img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
+                img.setAttribute("src",allThings.result[i].image_address);                        
                 img.setAttribute("alt",allThings.result[i].description);                                                        
                 figCaption.appendChild(document.createTextNode(allThings.result[i].description));
                  

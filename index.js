@@ -24,16 +24,27 @@ class Home {
        }    
        
        const a =  document.querySelectorAll("ul li a");
+       const filters =  document.querySelectorAll(".filter-things span");       
 
         for (let i = 0; i < a.length; i++) {
 
             a[i].addEventListener("click", async (e)=>{            
-                let categoriesId = e.target.getAttribute("data-id")     
-                let allThings;
-                if(categoriesId == "0"){
+                let categoriesId = e.target.getAttribute("data-id");
+                
+                let lostThingsFilters = filters.item(0).getAttribute('status');                
+                console.log(categoriesId == "0" &&  Number.parseInt(lostThingsFilters));
+                let allThings = {};
+                if(categoriesId == "0" &&  Number.parseInt(lostThingsFilters)){
                     allThings = await this.modelThings.getAll();
-                }else{
+
+                }else if(categoriesId == "0" &&  !Number.parseInt(lostThingsFilters)){
+                    allThings = await this.modelThings.getThingsReserved(); 
+                
+                }else if(Number.parseInt(lostThingsFilters)){
                     allThings = await this.modelThings.getThingsByCategoryId(categoriesId);  
+                    
+                }else{
+                    allThings = await this.modelThings.getThingsByCategoryIdAndReserved(categoriesId);  
                 }
 
                 let thingsList = document.querySelector(".things-list");              
@@ -120,12 +131,7 @@ class Home {
                         case 1:                            
                             allThings = await this.modelThings.getThingsReserved();                            
                             
-                            break;
-
-                        case 2:                            
-                            allThings = await this.modelThings.getThingsReturned();
-                            
-                            break;
+                            break;                       
                     
                         default:
                             break;

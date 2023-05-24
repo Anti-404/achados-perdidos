@@ -130,17 +130,17 @@ class Panel extends Controller{
 
     goToInteractionThing(){  
         
-        let thingsList =  document.querySelectorAll(".reserved figure");       
-        console.log(thingsList)
+        let thingsList =  document.querySelectorAll(".reserved figure");              
        
         thingsList.forEach((thing)=>{
             thing.addEventListener("click", (e)=>{   
                 let id = thing.getAttribute("data-id")            
-                window.location.href = `src/views/admin/things/internalscreens/interaction/?id=${id}`;
+                window.location.href = `src/views/admin/things/internalscreens/interaction/?id=${id}&&prevPage=${this.currentPage}`;
                     
             });    
         })
        
+          
        
     }
     

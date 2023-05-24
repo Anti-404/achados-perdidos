@@ -122,6 +122,48 @@ class ThingController extends Controller {
     
     }
 
+    public function getAllByCategoryAndReserved($categoryId){
+              
+        if($categoryId) {
+           
+            $things = Things::select()
+            ->where('reserved_status','1')
+            ->where('returned_status','0')
+            ->where('category_id', $categoryId)
+            ->orderBy('id','desc')
+            ->execute();
+            
+            if(count($things) > 0){                
+                
+                if(count($things) > 0){
+                    foreach($things as $item) {
+                        $this->array['result'][] = [
+                            'id' => $item['id'],                
+                            'image_address' => $item['image_address'],
+                            'description' => $item['description'],
+                            'local' => $item['local'],
+                            'date' => $item['date'],
+                            'reserved_status' => $item['reserved_status'],
+                            'returned_status' => $item['returned_status'],                
+                            'category_id' => $item['category_id']
+                        ];
+                    }
+                }
+    
+            } else {
+                $this->array['error'] = 'ID inexistente';
+            }
+
+        } else {
+            $this->array['error'] = 'ID não enviado';
+        } 
+        
+        
+        echo json_encode($this->array);
+        exit;
+    
+    }
+
     public function getAllReserved() {
         
         $things = Things::select()->where('reserved_status','1')->where('returned_status','0')->orderBy('id','desc')->get();                
@@ -209,10 +251,10 @@ class ThingController extends Controller {
         
     }
 
-    public function delete($id){                
-
+    public function delete($id){
         if($id) {            
-            Things::delete()->where('id',$id['id'])->execute();                
+            Things::delete()->where('id',$id['id'])->execute(); 
+            $this->array['error'] = '';               
 
         } else {
             $this->array['error'] = 'ID não enviado';
@@ -223,70 +265,7 @@ class ThingController extends Controller {
         exit;
     
     }
-
-    public function updateold(){  
         
-        $id = filter_input(INPUT_POST, 'id');
-        $imageAddress = filter_input(INPUT_POST, 'image_address');        
-        $description = filter_input(INPUT_POST, 'description');
-        $local = filter_input(INPUT_POST, 'local');
-        $returnedStatus = filter_input(INPUT_POST, 'returned_status');
-        $reservedStatus = filter_input(INPUT_POST, 'reserved_status');         
-        $categoryId = filter_input(INPUT_POST, 'category_id');
-        
-        
-        $data = [
-            'id' => $id,
-            'image_address' => $imageAddress,
-            'description' => $description,
-            'local' => $local,
-            'returned_status' => $returnedStatus,
-            'reserved_status' => $reservedStatus,
-            'category_id' => $categoryId            
-        ];
-
-        
-
-        if($data['id'] && $data['image_address']) {   
-            $things = Things::select()->where('id', $data['id'])->execute();            
-
-            if(count($things) > 0){
-
-                Things::update()->set(
-                    [
-                        'image_address' => $data['image_address'],
-                        'description' => $data['description'], 
-                        'local'=>$data['local'],
-                        'returned_status'=>$data['returned_status'],
-                        'reserved_status'=>$data['reserved_status'],
-                        'category_id'=>$data['category_id'],
-                    ]
-                    )->where('id', $data['id'])->execute();
-                
-                $this->array['result'] = [
-                        'image_address' => $data['image_address'],
-                        'description' => $data['description'], 
-                        'local'=>$data['local'],
-                        'returned_status'=>$data['returned_status'],
-                        'reserved_status'=>$data['reserved_status'],
-                        'category_id'=>$data['category_id'],
-                ];
-
-            }else{
-                $this->array['error'] = 'ID inexistente';
-            }                 
-            
-
-        } else {
-            $this->array['error'] = 'data não enviados';
-        } 
-
-
-        echo json_encode($this->array);
-        exit;
- 
-    }
-    
     public function insert(){        
         
        if(isset($_FILES['image_address']) && !empty($_FILES['image_address'])){
@@ -298,9 +277,10 @@ class ThingController extends Controller {
             $categoryId = filter_input(INPUT_POST, 'category_id');
                   
             if(isset($file['tmp_name']) && !empty($file['tmp_name'])){
-                
-                $imageAddres = 'api/assets/imgs/'.md5(time().rand(0,99)).'.'.$extensionUploadedImage;        
-                move_uploaded_file($file['tmp_name'], $imageAddres);                   
+                $nameImg = md5(time().rand(0,99));
+                $imageAddres = 'api/assets/imgs/'.$nameImg.'.'.$extensionUploadedImage;      
+                $localPathImageAddres = '../assets/imgs/'.$nameImg.'.'.$extensionUploadedImage;  
+                move_uploaded_file($file['tmp_name'], $localPathImageAddres);                   
                 
 
                 if($categoryId)  {   
