@@ -35,6 +35,9 @@ class ShowThing extends Controller{
             document.querySelector("#returned-status").value = thing.result.returned_status;
             
             document.querySelector("#reserved-status").value = thing.result.reserved_status;
+            let message = `Codigo: ${this.identifier} Local: ${thing.result.local} Descrição: ${thing.result.description}  
+            `;
+            document.querySelector("#modal #body").value=  message;
             
             
 
@@ -53,17 +56,30 @@ class ShowThing extends Controller{
 
     }
 
-    itsMy(){                                                                                                                         
-        document.querySelector("#its-my").addEventListener("click",(e)=>{    
+    itsMy(){    
+        let reserveFormData = []
+
+        document.querySelector("#its-my-button").addEventListener("click",(e)=>{    
             e.preventDefault();            
+                      
+           reserveFormData = new FormData(document.querySelector('.container form')); 
+           reserveFormData.set('reserved_status',1);           
+           console.log([...reserveFormData.entries()])
+
+        });
+
+        document.querySelector("#send-email-button").addEventListener("click",async (e)=>{    
+            e.preventDefault();            
+                      
+           let formData = new FormData(document.querySelector('#modal form'));
+           let response = await this.modelThings.sendEmail(formData);           
            
-           
-           let formData = new FormData(document.querySelector('form')); 
-           formData.set('reserved_status',1);           
-           let prevPage = 'http://localhost/smd/projeto';           
-           let message = 'Reservado';
-           this.modelThings.update( prevPage, formData, message);        
-    
+           if(!response.erro && reserveFormData){
+                let prevPage = 'http://localhost/smd/projeto';           
+                let message = 'Reservado';                
+                this.modelThings.update(prevPage, reserveFormData, message);                            
+           }
+                      
 
         });
     } 

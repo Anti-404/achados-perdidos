@@ -109,4 +109,21 @@ export default class ModelThings extends Model{
       }   
   }
 
+ async sendEmail(formData){
+    const endpoint = `${this.path}${this.nameController}/sendemail`;                  
+      
+      try {
+        let response = await fetch(endpoint, {
+          method: "POST",            
+          body:  formData          
+        });  
+        console.log(await response.text());
+        //response = await response.json();        
+        //return response;                 
+        
+      } catch (error) {
+        console.log('Erro no codigo do sistema: '+error);
+      }   
+  }
+
 }

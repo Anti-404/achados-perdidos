@@ -15,6 +15,7 @@ $router->get('/thing/get/{id}', 'ThingController@get');
 $router->delete('/thing/delete/{id}', 'ThingController@delete'); 
 $router->post('/thing/update', 'ThingController@update');
 $router->post('/thing/insert', 'ThingController@insert');
+$router->post('/thing/sendemail', 'ThingController@sendEmail');
 $router->get('/thing/getallbycategory/{categoryid}', 'ThingController@getAllByCategory');
 $router->get('/thing/getallreserved', 'ThingController@getAllReserved');
 $router->get('/thing/getalldiscard', 'ThingController@getAllDiscard');
