@@ -1,34 +1,52 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    
+<head class = "restricted-admin">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="index.css" />   
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" >
+    <link rel="stylesheet" href="index.css">
+
     <title>Objeto</title>
 </head>
-
-<body>    
+<body class="body">  
     <header>
         <div class="container">
-            <span>Mostrar objetos</span>   
+            <a id="back">Voltar</a>
+            <h1>Objetos</h1>
         </div>
     </header>
 
-    <main>
-        <div class="container">            
+    <section>
+        <div class="container">    
+            <form action="" method="post">
+                        
+                        <input type="hidden" name="id" id="data-id">                         
+                        <input type = "hidden" name="image_address" id="image-address">                        
+                        <img >                       
+                        <br><br> 
+
+                        <span id="category"></span>
+                        <input type = "hidden" name="category_id" id="category-id">                                               
+                        <br><br>
+                        
+                        <label for="local">Local</label><br>
+                        <input type="text" name="local" id="local">
+                        <br><br>                    
+
+                        <label for="description">Descrição</label><br>
+                        <textarea name="description" cols="30" rows="10" id="description"></textarea>
+                        <br><br>
+
+                        <input type = "hidden" name="returned_status" id="returned-status">
+                        <input type = "hidden" name="reserved_status" id="reserved-status">
+
+                        <button id="its-my">É meu</button>                        
+            </form>
+            
         </div>
-    </main>
-
-    <footer>
-        <div class="container"></div>
-    </footer>
-
-    <script type="module" src="index.js" ></script>
-    <script src="../../../../assets/js/utilities.js"></script>
+    </section>
+        
+    <script type = "module" src="index.js" ></script>
+    <script src="../../../../../assets/js/utilities.js"></script>
 </body>
 </html>
-
-

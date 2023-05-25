@@ -57,16 +57,31 @@ class Home {
                         let a = document.createElement("a");
                         let figure = document.createElement("figure");
                         let img = document.createElement("img");
-                        let figCaption = document.createElement("figcaption");             
-                                                                      
+                        let figCaption = document.createElement("figcaption");
+                        let p  = document.createElement("p");
+                        let span = document.createElement("span");             
+
+                        p.appendChild(document.createTextNode("Código: "+allThings.result[i].id));      
+
+                        a.setAttribute("href",`./src/views/users/things/show-object/?id=${allThings.result[i].id}`);                                              
+                        figure.setAttribute("data-id",allThings.result[i].id);                                                            
                         a.setAttribute("data-id",allThings.result[i].id);                                                            
                         img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
                         img.setAttribute("alt",allThings.result[i].description);                                                        
                         figCaption.appendChild(document.createTextNode(allThings.result[i].description));
+                        document.querySelectorAll('#categories-list a').forEach((item)=>{
+                                        
+                            if(allThings.result[i].category_id == item.getAttribute('data-id')){
+                                span.appendChild(document.createTextNode(item.innerHTML));                  
+                                return;
+                            }
+                        });
                          
                         figure.appendChild(img);
                         figure.appendChild(figCaption);
-                        a.appendChild(figure);
+                        a.appendChild(p);
+                        a.appendChild(span);
+                        a.appendChild(figure);                        
                         thingsList.appendChild(a);
                         
                     }  
@@ -94,16 +109,29 @@ class Home {
                     let figure = document.createElement("figure");
                     let img = document.createElement("img");
                     let figCaption = document.createElement("figcaption");             
-                    
+                    let span = document.createElement("span");             
+                    let p  = document.createElement("p");
+
+                    p.appendChild(document.createTextNode("Código: "+allThings.result[i].id)); 
                     a.setAttribute("href",`./src/views/users/things/show-object/?id=${allThings.result[i].id}`);
                     figure.setAttribute("data-id",allThings.result[i].id);                        
-                    img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
-                    img.setAttribute("alt",allThings.result[i].description);                                                        
+                    img.setAttribute("src",allThings.result[i].image_address);                        
+                    img.setAttribute("alt",allThings.result[i].description);  
+                    document.querySelectorAll('#categories-list a').forEach((item)=>{
+                                        
+                        if(allThings.result[i].category_id == item.getAttribute('data-id')){
+                            span.appendChild(document.createTextNode(item.innerHTML));                  
+                            return;
+                        }
+                    });                                                                                         
                     figCaption.appendChild(document.createTextNode(allThings.result[i].description));
                      
                     figure.appendChild(img);
                     figure.appendChild(figCaption); 
+                    a.appendChild(p);
+                    a.appendChild(span);
                     a.appendChild(figure);
+                    
                     thingsList.appendChild(a);
                     
                 }

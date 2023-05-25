@@ -84,9 +84,9 @@ export default class ModelThings extends Model{
   }
  
   
-  async update(addressRedirecting, formData){       
-    const endpoint = `${this.path}${this.nameController}/update`;            
-
+  async update(addressRedirecting, formData, message='Editado'){       
+    const endpoint = `${this.path}${this.nameController}/update`;                  
+      
       try {
         let response = await fetch(endpoint, {
           method: "POST",            
@@ -97,7 +97,7 @@ export default class ModelThings extends Model{
         response = await response.json();
         
         if(response.error == ''){
-          alert("Editado com Sucesso");                 
+          alert(message+' com Sucesso');                 
           window.location.href = addressRedirecting;      
 
         }else{

@@ -22,20 +22,31 @@ class Things extends Controller{
             
             for (let i = 0; i < allThings.result.length; ++i) {
                 let div  = document.createElement("div");
-                let p  = document.createElement("p");                
+                let code  = document.createElement("p");                
+                let category  = document.createElement("p");                
                 let figure = document.createElement("figure");
                 let img = document.createElement("img");
                 let figCaption = document.createElement("figcaption");             
                                                        
                 div.setAttribute("data-id",allThings.result[i].id);                        
-                p.appendChild(document.createTextNode("Código: "+allThings.result[i].id));                  
+                code.appendChild(document.createTextNode("Código: "+allThings.result[i].id)); 
+                
+                document.querySelectorAll('#categories-list option').forEach((item)=>{
+                                        
+                    if(allThings.result[i].category_id == item.value){
+                        category.appendChild(document.createTextNode("Categoria: "+item.innerHTML));                  
+                        return;
+                    }
+                });               
+
                 img.setAttribute("src",allThings.result[i].image_address);                        
                 img.setAttribute("alt",allThings.result[i].description);                                                        
                 figCaption.appendChild(document.createTextNode(allThings.result[i].description));
                  
                 figure.appendChild(img);
                 figure.appendChild(figCaption); 
-                div.appendChild(p);
+                div.appendChild(code);
+                div.appendChild(category);
                 div.appendChild(figure);
                 thingsList.appendChild(div);
                 

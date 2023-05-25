@@ -314,12 +314,12 @@ class ThingController extends Controller {
         $pathImageAddressDB = filter_input(INPUT_POST, 'image_address');
         $description = filter_input(INPUT_POST, 'description');
         $local = filter_input(INPUT_POST, 'local');
-        $returnedStatus = filter_input(INPUT_POST, 'returned_status');
-        $returnedStatus = (isset($returnedStatus))? '1':'0';
-        $reservedStatus = filter_input(INPUT_POST, 'reserved_status');
-        $reservedStatus = (isset($reservedStatus))? '1':'0';
+        $returnedStatus = filter_input(INPUT_POST, 'returned_status');        
+        $reservedStatus = filter_input(INPUT_POST, 'reserved_status');        
         $categoryId = filter_input(INPUT_POST, 'category_id');        
-       
+        
+       if(isset($_FILES['image_address_update']) && !empty($_FILES['image_address_update'])){
+
        if($_FILES['image_address_update']['size']){
             $file = $_FILES['image_address_update'];        
             $extensionUploadedImage = explode('/',$_FILES['image_address_update']['type'])[1];            
@@ -331,6 +331,7 @@ class ThingController extends Controller {
                 move_uploaded_file($file['tmp_name'], $localPathImageAddres);   
             }   
                 
+        }
         }       
 
         $data = [

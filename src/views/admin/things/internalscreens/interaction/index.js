@@ -30,14 +30,11 @@ class ThingsInteraction extends Controller{
             document.querySelector("#local").value = thing.result.local;
 
             document.querySelector("#description").value = thing.result.description;
+                        
+            document.querySelector("#returned-status").value = thing.result.returned_status;
             
-            if(Number.parseInt(thing.result.returned_status)){
-                document.querySelector("#returned-status").setAttribute("checked","true");
-            }
-
-            if(Number.parseInt(thing.result.reserved_status)){
-                document.querySelector("#reserved-status").setAttribute("checked","true");
-            }          
+            document.querySelector("#reserved-status").value = thing.result.reserved_status;
+            
                        
 
         }else{
