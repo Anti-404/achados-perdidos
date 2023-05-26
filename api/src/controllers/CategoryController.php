@@ -57,6 +57,32 @@ class CategoryController extends Controller {
     
     }
 
+    public function getCategoryByName($name){
+        $category = Categories::select()->where('name', $name)->get();
+
+        if($name) {
+            
+            if(count($category) > 0){                
+    
+                $this->array['result'] = [
+                    'id' => $category[0]['id'],
+                    'name' => $category[0]['name']
+                ];
+    
+            } else {
+                $this->array['error'] = 'ID inexistente';
+            }
+
+        } else {
+            $this->array['error'] = 'ID não enviado';
+        } 
+        
+        
+        echo json_encode($this->array);
+        exit;
+    
+    }
+
     public function delete($id){
         if($id) {            
             Categories::delete()->where('id',$id['id'])->execute(); 

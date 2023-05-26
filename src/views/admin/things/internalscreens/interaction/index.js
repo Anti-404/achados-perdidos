@@ -102,6 +102,8 @@ class ThingsInteraction extends Controller{
             document.querySelector(`#${fields[i]}`).addEventListener("focus",()=>{
                 document.querySelector("#update-button").removeAttribute("disabled");  
             });  
+
+            console.log(document.querySelector(`#${fields[i]}`))
             
         }       
 
@@ -134,6 +136,6 @@ const thingsInteraction = new ThingsInteraction();
 thingsInteraction.getThing();
 thingsInteraction.update();
 thingsInteraction.delete();
-thingsInteraction.enableButton("local", "list-categories", "description", "returned-status", "reserved-status");
+thingsInteraction.enableButton("image-address","image-address-update", "local", "list-categories", "description", "returned-status", "reserved-status");
 thingsInteraction.handlerPageBack();
 thingsInteraction.goToCategoryRegistration();

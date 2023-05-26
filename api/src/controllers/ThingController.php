@@ -123,6 +123,33 @@ class ThingController extends Controller {
     
     }
 
+    public function getAllByDescription($description=[]){
+        $things = [];
+        
+        if(sizeof($description) <= 0) {echo json_encode($this->array);}            
+
+        for ($i=0; $i < sizeof($description) ; $i++) { 
+            $query = Things::select()
+            ->where('reserved_status','0')
+            ->where('returned_status','0')
+            ->where('description', 'like','%'.$description[$i].'%')
+            ->orWhere('description', 'like','%'.$description[$i+1].'%')
+            ->orderBy('id','desc')
+            ->execute();
+
+            array_push($things, $query);
+        }
+           
+        if(count($things) > 0){
+
+        }            
+        
+        
+        echo json_encode($this->array);
+        exit;
+    
+    }
+
     public function getAllByCategoryAndReserved($categoryId){
               
         if($categoryId) {

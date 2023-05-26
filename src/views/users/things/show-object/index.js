@@ -19,6 +19,7 @@ class ShowThing extends Controller{
         
         if(!thing.erro && !category.erro){            
             document.querySelector("#data-id").value = this.identifier;            
+            document.querySelector("#code").appendChild(document.createTextNode(this.identifier));            
             
             document.querySelector("form img").setAttribute('src', `${thing.result.image_address}`);            
 
@@ -76,7 +77,7 @@ class ShowThing extends Controller{
            
            if(!response.erro && reserveFormData){
                 let prevPage = 'http://localhost/smd/projeto';           
-                let message = 'Reservado';                
+                let message = 'Um QR code foi gerado e enviado para o seu email! Por favor, mostrar quando for á secretaria buscar o seu objeto!';                
                 this.modelThings.update(prevPage, reserveFormData, message);                            
            }
                       

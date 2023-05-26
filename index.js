@@ -79,7 +79,7 @@ class Home {
                          
                         figure.appendChild(img);
                         figure.appendChild(figCaption);
-                        a.appendChild(p);
+                        //a.appendChild(p);
                         a.appendChild(span);
                         a.appendChild(figure);                        
                         thingsList.appendChild(a);
@@ -112,7 +112,7 @@ class Home {
                     let span = document.createElement("span");             
                     let p  = document.createElement("p");
 
-                    p.appendChild(document.createTextNode("Código: "+allThings.result[i].id)); 
+                    //p.appendChild(document.createTextNode("Código: "+allThings.result[i].id)); 
                     a.setAttribute("href",`./src/views/users/things/show-object/?id=${allThings.result[i].id}`);
                     figure.setAttribute("data-id",allThings.result[i].id);                        
                     img.setAttribute("src",allThings.result[i].image_address);                        
@@ -175,15 +175,24 @@ class Home {
                     let figure = document.createElement("figure");
                     let img = document.createElement("img");
                     let figCaption = document.createElement("figcaption");             
-                    
+                    let span = document.createElement("span"); 
+
                     a.setAttribute("href",`./src/views/users/things/show-object/?id=${allThings.result[i].id}`);
                     figure.setAttribute("data-id",allThings.result[i].id);                        
                     img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
                     img.setAttribute("alt",allThings.result[i].description);                                                        
                     figCaption.appendChild(document.createTextNode(allThings.result[i].description));
+                    document.querySelectorAll('#categories-list a').forEach((item)=>{
+                                        
+                        if(allThings.result[i].category_id == item.getAttribute('data-id')){
+                            span.appendChild(document.createTextNode(item.innerHTML));                  
+                            return;
+                        }
+                    });
                      
                     figure.appendChild(img);
-                    figure.appendChild(figCaption); 
+                    figure.appendChild(figCaption);
+                    a.appendChild(span); 
                     a.appendChild(figure);
                     thingsList.appendChild(a);
                     
@@ -229,6 +238,36 @@ class Home {
         }        
         
     }
+
+    searchItem(){
+        document.querySelector('#search-button').addEventListener('click',async ()=>{
+            let searchField = document.querySelector('#search-item').value;
+            const words = searchField.split(' ');
+
+            let category = {};
+            for (const key in words) {               
+                category = await this.modelCategories.getCategoryByName(words[key]);
+
+                if(!(category.result instanceof Array)); break;                   
+                
+            }
+
+            if((Object.keys(category)).length > 0){
+                                           
+                 const things = await this.modelThings.getThingsByCategoryId(category.result.id);
+                 if(!(things.result instanceof Array)){
+                    
+                 }
+                
+
+            }
+            
+            
+        });
+
+    }
+
+    
        
 
 }
@@ -237,3 +276,4 @@ const home = new Home();
 home.categoriesList();
 home.thingsList();
 home.filterThings();
+home.searchItem();

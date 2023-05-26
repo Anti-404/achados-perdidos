@@ -23,7 +23,7 @@ class ReturnedThing extends Controller{
                 let figCaption = document.createElement("figcaption");             
                                                               
                 a.setAttribute("id",allThingsReturned.result[i].id);                        
-                img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThingsReturned.result[i].image_address).substring(3,(allThingsReturned.result[i].image_address).length));                        
+                img.setAttribute("src",allThingsReturned.result[i].image_address);                        
                 img.setAttribute("alt",allThingsReturned.result[i].description);                                                        
                 figCaption.appendChild(document.createTextNode(allThingsReturned.result[i].description));
                  
