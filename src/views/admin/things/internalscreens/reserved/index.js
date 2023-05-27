@@ -2,7 +2,7 @@ import ModelCategories from '../../../../../models/categories/index.js';
 import ModelThings from '../../../../../models/things/index.js';
 import Controller from '../../../../../core/controller/index.js';
 
-class ThingsInteraction extends Controller{    
+class ThingsReserved extends Controller{    
 
     constructor(){  
         super()      ;
@@ -16,7 +16,7 @@ class ThingsInteraction extends Controller{
 
     async getThing(){  
         
-        const thing = await this.modelThings.get(this.identifier); 
+        const thing = await this.modelThings.getReservedById(this.identifier); 
         
         if(!thing.erro){            
             document.querySelector("#data-id").value = this.identifier;            
@@ -133,10 +133,10 @@ class ThingsInteraction extends Controller{
     } 
 }
 
-const thingsInteraction = new ThingsInteraction();
-thingsInteraction.getThing();
-thingsInteraction.update();
-thingsInteraction.delete();
-thingsInteraction.enableButton("image-address","image-address-update", "local", "list-categories", "description", "returned-status", "reserved-status");
-thingsInteraction.handlerPageBack();
-thingsInteraction.goToCategoryRegistration();
+const thingsReserved = new ThingsReserved();
+thingsReserved.getThing();
+thingsReserved.update();
+thingsReserved.delete();
+thingsReserved.enableButton("image-address","image-address-update", "local", "list-categories", "description", "returned-status", "reserved-status");
+thingsReserved.handlerPageBack();
+thingsReserved.goToCategoryRegistration();

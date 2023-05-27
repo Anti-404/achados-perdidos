@@ -52,6 +52,19 @@ export default class ModelThings extends Model{
 
   }
 
+  async getReservedById(id){
+    const endpoint = `${this.path}${this.nameController}/getreservedbyid/${id}`;
+            
+      try {            
+          const response = await fetch(endpoint);           
+          
+          return response.json();
+                      
+        } catch(e) {
+          console.log(e);
+        }     
+    }
+
   async getThingsDiscard(){
 
     const endpoint = `${this.path}${this.nameController}/getalldiscard`;

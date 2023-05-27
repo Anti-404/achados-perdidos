@@ -19,6 +19,7 @@ $router->post('/thing/insert', 'ThingController@insert');
 $router->post('/thing/sendemail', 'ThingController@sendEmail');
 $router->get('/thing/getallbycategory/{categoryid}', 'ThingController@getAllByCategory');
 $router->get('/thing/getallreserved', 'ThingController@getAllReserved');
+$router->get('/thing/getreservedbyid/{id}', 'ThingController@getReservedById'); 
 $router->get('/thing/getalldiscard', 'ThingController@getAllDiscard');
 $router->get('/thing/getallreturned', 'ThingController@getAllReturned');
 $router->get('/thing/getallbycategoryandreserved/{categoryid}', 'ThingController@getAllByCategoryAndReserved');

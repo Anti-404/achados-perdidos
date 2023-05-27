@@ -22,7 +22,7 @@ class Discard extends Controller{
                 let figCaption = document.createElement("figcaption");             
                                                               
                 a.setAttribute("id",allThingsDiscard.result[i].id);                        
-                img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThingsDiscard.result[i].image_address).substring(3,(allThingsDiscard.result[i].image_address).length));                        
+                img.setAttribute("src",allThingsDiscard.result[i].image_address);                        
                 img.setAttribute("alt",allThingsDiscard.result[i].description);                                                        
                 figCaption.appendChild(document.createTextNode(allThingsDiscard.result[i].description));
                  

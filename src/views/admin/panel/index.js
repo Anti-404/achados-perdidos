@@ -20,8 +20,7 @@ class Panel extends Controller{
     async ListThingsReserved(){
 
         const allThings = await this.modelThings.getThingsReserved();                    
-        let  thingsListReserved = document.querySelector(".reserved");        
-
+        let  thingsListReserved = document.querySelector(".reserved");                
         if(!allThings.error){ 
                         
             for (let i = 0; i < allThings.result.length; ++i) {
@@ -128,14 +127,14 @@ class Panel extends Controller{
         
     } 
 
-    goToInteractionThing(){  
+    goToReservedThing(){  
         
         let thingsList =  document.querySelectorAll(".reserved figure");              
        
         thingsList.forEach((thing)=>{
             thing.addEventListener("click", (e)=>{   
                 let id = thing.getAttribute("data-id")            
-                window.location.href = `src/views/admin/things/internalscreens/interaction/?id=${id}&&prevPage=${this.currentPage}`;
+                window.location.href = `src/views/admin/things/internalscreens/reserved/?id=${id}&&prevPage=${this.currentPage}`;
                     
             });    
         })
@@ -157,6 +156,6 @@ panel.goToCategoryManager();
 panel.goToThingRegister();
 panel.goToReturnedThing();
 panel.goToManageThings();
-panel.goToInteractionThing();
+panel.goToReservedThing();
 
 panel.exit();

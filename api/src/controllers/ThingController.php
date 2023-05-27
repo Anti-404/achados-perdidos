@@ -9,9 +9,12 @@ use DateTimeZone;
 
 
 class ThingController extends Controller {    
-
+    private $numberDays;
+    private DateTimeZone $timezone;
     public function __construct(){
-        parent::__construct();               
+        parent::__construct();                       
+        $this->numberDays = 15768000; // 6 meses
+        $this->timezone =  new DateTimeZone('America/Fortaleza');
     }
 
     public function index() {
@@ -21,27 +24,26 @@ class ThingController extends Controller {
        ->where('returned_status','0')
        ->orderBy('id','desc')->get();      
        
-       $timezone = new DateTimeZone('America/Fortaleza');
-              
        if(count($things) > 0){
-                foreach($things as $item) {                    
-                    $diffDates = $this->checkDateDifference($timezone, $item['date'], 259200); 
-
-                    if(!$diffDates){ 
-                    $this->array['result'][] = [
-                        'id' => $item['id'],                
+            
+        foreach($things as $item) {                
+            $diffDates = $this->checkDateDifference($item['date'], $this->numberDays); 
+            
+             if(!$diffDates){ 
+               $this->array['result'][] = [
+                    'id' => $item['id'],                
                         'image_address' => $item['image_address'],
                         'description' => $item['description'],
                         'local' => $item['local'],
                         'date' => $item['date'],
-                        'reserved_status' => $item['reserved_status'],
-                        'returned_status' => $item['returned_status'],                
-                        'category_id' => $item['category_id']
-                    ];
-                }
-            }
-        
+                        'reserved_status' => $item['reserved_status'],                                           
+                        'returned_status' => $item['returned_status'],                                           
+                        'category_id' => $item['category_id']                            
+                ];
+             }
+            
         }
+    }
              
         echo json_encode($this->array);
         exit;
@@ -50,32 +52,41 @@ class ThingController extends Controller {
 
     public function get($id){    
         
-        if($id) {
+        if($id) {            
             
-            $item = Things::select()->where($id)->get();
-            
-            if(count($item[0]) > 0){                
-                
-                $this->array['result'] = [
-                    'id' => $item[0]['id'],                
-                    'image_address' => $item[0]['image_address'],
-                    'description' => $item[0]['description'],
-                    'local' => $item[0]['local'],
-                    'date' => $item[0]['date'],
-                    'reserved_status' => $item[0]['reserved_status'],
-                    'returned_status' => $item[0]['returned_status'],                
-                    'category_id' => $item[0]['category_id']
-                ];
-    
-            } else {
-                $this->array['error'] = 'ID inexistente';
-            }
+            $things = Things::select()
+            ->where('reserved_status','0')
+            ->where('returned_status','0')
+            ->where('id', $id)
+            ->orderBy('id','desc')
+            ->execute();
 
-        } else {
-            $this->array['error'] = 'ID não enviado';
-        } 
+            if(count($things) > 0){
+            
+                foreach($things as $item) {                
+                    $diffDates = $this->checkDateDifference($item['date'], $this->numberDays); 
+                    
+                     if(!$diffDates){ 
+                       $this->array['result'][] = [
+                            'id' => $item['id'],                
+                                'image_address' => $item['image_address'],
+                                'description' => $item['description'],
+                                'local' => $item['local'],
+                                'date' => $item['date'],
+                                'reserved_status' => $item['reserved_status'],                                           
+                                'returned_status' => $item['returned_status'],                                           
+                                'category_id' => $item['category_id']                            
+                        ];
+                     }
+                    
+                }
+            
+            } else {
+                $this->array['error'] = 'ID não enviado';
+            } 
         
-        
+        }
+
         echo json_encode($this->array);
         exit;
     
@@ -92,25 +103,24 @@ class ThingController extends Controller {
             ->orderBy('id','desc')
             ->execute();
             
-            if(count($things) > 0){                
-                
-                if(count($things) > 0){
-                    foreach($things as $item) {
-                        $this->array['result'][] = [
+            if(count($things) > 0){
+            
+                foreach($things as $item) {                
+                    $diffDates = $this->checkDateDifference($item['date'], $this->numberDays); 
+                    
+                     if(!$diffDates){ 
+                       $this->array['result'][] = [
                             'id' => $item['id'],                
-                            'image_address' => $item['image_address'],
-                            'description' => $item['description'],
-                            'local' => $item['local'],
-                            'date' => $item['date'],
-                            'reserved_status' => $item['reserved_status'],
-                            'returned_status' => $item['returned_status'],                
-                            'category_id' => $item['category_id']
+                                'image_address' => $item['image_address'],
+                                'description' => $item['description'],
+                                'local' => $item['local'],
+                                'date' => $item['date'],
+                                'reserved_status' => $item['reserved_status'],                                           
+                                'returned_status' => $item['returned_status'],                                           
+                                'category_id' => $item['category_id']                            
                         ];
-                    }
-                }
-    
-            } else {
-                $this->array['error'] = 'ID inexistente';
+                     }
+                    }    
             }
 
         } else {
@@ -122,6 +132,7 @@ class ThingController extends Controller {
         exit;
     
     }
+
 
     public function getAllByDescription($description=[]){
         $things = [];
@@ -136,7 +147,8 @@ class ThingController extends Controller {
             ->orWhere('description', 'like','%'.$description[$i+1].'%')
             ->orderBy('id','desc')
             ->execute();
-
+            
+            
             array_push($things, $query);
         }
            
@@ -161,26 +173,26 @@ class ThingController extends Controller {
             ->orderBy('id','desc')
             ->execute();
             
-            if(count($things) > 0){                
-                
-                if(count($things) > 0){
-                    foreach($things as $item) {
-                        $this->array['result'][] = [
+            if(count($things) > 0){
+            
+                foreach($things as $item) {                
+                    $diffDates = $this->checkDateDifference($item['date'], $this->numberDays); 
+                    
+                     if(!$diffDates){ 
+                       $this->array['result'][] = [
                             'id' => $item['id'],                
-                            'image_address' => $item['image_address'],
-                            'description' => $item['description'],
-                            'local' => $item['local'],
-                            'date' => $item['date'],
-                            'reserved_status' => $item['reserved_status'],
-                            'returned_status' => $item['returned_status'],                
-                            'category_id' => $item['category_id']
+                                'image_address' => $item['image_address'],
+                                'description' => $item['description'],
+                                'local' => $item['local'],
+                                'date' => $item['date'],
+                                'reserved_status' => $item['reserved_status'],                                           
+                                'returned_status' => $item['returned_status'],                                           
+                                'category_id' => $item['category_id']                            
                         ];
-                    }
-                }
-    
-            } else {
-                $this->array['error'] = 'ID inexistente';
+                     }
+                }    
             }
+            
 
         } else {
             $this->array['error'] = 'ID não enviado';
@@ -194,25 +206,26 @@ class ThingController extends Controller {
 
     public function getAllReserved() {
         
-        $things = Things::select()->where('reserved_status','1')->where('returned_status','0')->orderBy('id','desc')->get();                
-        $timezone = new DateTimeZone('America/Fortaleza');
+        $things = Things::select()->where('reserved_status','1')->where('returned_status','0')->orderBy('id','desc')->get();                        
         
-        if(count($things) > 0){            
-            foreach($things as $item) {
-                 // 259200 == 3 dias | 15768000 == 6 meses                
-                $diffDates = $this->checkDateDifference($timezone, $item['date'], 259200);
-                if(!$diffDates){ 
-                    $this->array['result'][] = [
+        if(count($things) > 0){
+            
+            foreach($things as $item) {                
+                $diffDates = $this->checkDateDifference($item['date'], $this->numberDays); 
+                
+                 if(!$diffDates){ 
+                   $this->array['result'][] = [
                         'id' => $item['id'],                
                             'image_address' => $item['image_address'],
                             'description' => $item['description'],
                             'local' => $item['local'],
-                            'register_date' => $item['date'],
+                            'date' => $item['date'],
                             'reserved_status' => $item['reserved_status'],                                           
-                            'category_id' => $item['category_id']
+                            'returned_status' => $item['returned_status'],                                           
+                            'category_id' => $item['category_id']                            
                     ];
-                }    
-            }
+                 }
+            }   
         }
         
              
@@ -221,24 +234,71 @@ class ThingController extends Controller {
         
     }
 
+    public function getReservedById($id){    
+        
+        if($id) {            
+            
+            $things = Things::select()
+            ->where('reserved_status','1')
+            ->where('returned_status','0')
+            ->where('id', $id)
+            ->orderBy('id','desc')
+            ->execute();
+
+            if(count($things) > 0){
+            
+                foreach($things as $item) {                
+                    $diffDates = $this->checkDateDifference($item['date'], $this->numberDays); 
+                    
+                     if(!$diffDates){ 
+                       $this->array['result'][] = [
+                            'id' => $item['id'],                
+                                'image_address' => $item['image_address'],
+                                'description' => $item['description'],
+                                'local' => $item['local'],
+                                'date' => $item['date'],
+                                'reserved_status' => $item['reserved_status'],                                           
+                                'returned_status' => $item['returned_status'],                                           
+                                'category_id' => $item['category_id']                            
+                        ];
+                     }
+                    
+                }
+            
+            } else {
+                $this->array['error'] = 'ID não enviado';
+            } 
+        
+        }
+
+        echo json_encode($this->array);
+        exit;
+    
+    }
+
     public function getAllReturned() {
         
         $things = Things::select()->where('returned_status','1')->orderBy('id','desc')->get();                
         
-        
         if(count($things) > 0){
-            foreach($things as $item) {
-                $this->array['result'][] = [
-                    'id' => $item['id'],                
-                        'image_address' => $item['image_address'],
-                        'description' => $item['description'],
-                        'local' => $item['local'],
-                        'register_date' => $item['date'],
-                        'reserved_status' => $item['reserved_status'],                                           
-                        'category_id' => $item['category_id']
-                ];
-            }
-        }
+            
+            foreach($things as $item) {                
+                $diffDates = $this->checkDateDifference($item['date'], $this->numberDays); 
+                
+                 if(!$diffDates){ 
+                   $this->array['result'][] = [
+                        'id' => $item['id'],                
+                            'image_address' => $item['image_address'],
+                            'description' => $item['description'],
+                            'local' => $item['local'],
+                            'date' => $item['date'],
+                            'reserved_status' => $item['reserved_status'],                                           
+                            'returned_status' => $item['returned_status'],                                           
+                            'category_id' => $item['category_id']                            
+                    ];
+                 }
+            }    
+        }       
         
              
         echo json_encode($this->array);
@@ -249,34 +309,38 @@ class ThingController extends Controller {
     public function getAllDiscard() {
         
         $things = Things::select()->orderBy('id','desc')->get();  
-        $timezone = new DateTimeZone('America/Fortaleza');
-
+        
         if(count($things) > 0){
             
-            foreach($things as $item) {
-                // 259200 == 3 dias | 15768000 == 6 meses                
-                $diffDates = $this->checkDateDifference($timezone, $item['date'], 259200); 
+            foreach($things as $item) {                
+                $diffDates = $this->checkDateDifference($item['date'], $this->numberDays); 
                 
                  if($diffDates){ 
-                    $this->array['result'][] = [
+                   $this->array['result'][] = [
                         'id' => $item['id'],                
                             'image_address' => $item['image_address'],
                             'description' => $item['description'],
                             'local' => $item['local'],
                             'date' => $item['date'],
                             'reserved_status' => $item['reserved_status'],                                           
-                            'category_id' => $item['category_id'],
-                            'diff_dates' => $diffDates
+                            'returned_status' => $item['returned_status'],                                           
+                            'category_id' => $item['category_id']                            
                     ];
                  }
-                
-            }
+            }    
         }
-        
              
         echo json_encode($this->array);
         exit;
         
+    }
+   
+
+    private function checkDateDifference($date, $daysLimit){        
+        $dateThing = new DateTime($date);
+        $now = new DateTime('now', $this->timezone);                               
+        $diffDates =  $now->format('U') - $dateThing->format('U');        
+        return ($diffDates >= $daysLimit);
     }
 
     public function delete($id){
@@ -413,14 +477,7 @@ class ThingController extends Controller {
 
 
 
-    }
-
-    private function checkDateDifference(DateTimeZone $timezone, $date, $daysLimit){
-        $dateThing = new DateTime($date);
-        $now = new DateTime('now', $timezone);                               
-        $diffDates =  $now->format('U') - $dateThing->format('U');        
-        return ($diffDates > $daysLimit);
-    }
+    }    
 
     public function sendEmail(){        
         $toMail = filter_input(INPUT_POST, 'to');        
