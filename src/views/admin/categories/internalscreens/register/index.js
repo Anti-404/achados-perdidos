@@ -11,8 +11,12 @@ class CategoriesRegistration extends Controller{
     save(){        
         document.querySelector("#save-button").addEventListener("click", (e)=>{ 
             e.preventDefault();
-            let form = document.querySelector('form');
-            let formData = new FormData(form);
+            let formData = new FormData(document.querySelector('form'));
+            
+            if(localStorage.getItem("hash")){
+                formData.append('hash',localStorage.getItem("hash"));
+                
+            }             
                          
             this.modelCategories.insert(this.prevPage, formData);           
         

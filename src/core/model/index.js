@@ -35,14 +35,14 @@ export default class Model{
 
     async insert(addressRedirecting, formData){       
       const endpoint = `${this.path}${this.nameController}/insert`;            
-      
+        
         try {
           const response = await fetch(endpoint, {
             method: "POST",
             body: formData,
           });          
           alert("Cadastrado com Sucesso");
-          window.location.href = addressRedirecting;          
+         window.location.href = addressRedirecting;          
         } catch (error) {
           alert(error);
         }   
@@ -82,13 +82,24 @@ export default class Model{
     }
 
 
-    async delete(addressRedirecting, id){
+    async delete(addressRedirecting, id, formData){
+      
   
     const endpoint = `${this.path}${this.nameController}/delete/${id}`;
-
+    
+    const data = {};
+      formData.forEach(function(value, key){
+      data[key] = value;
+        
+      });
+      
+      formData = JSON.stringify(data); 
+    
     try {
       let response = await fetch(endpoint, {
-        method: "DELETE"
+        method: "DELETE",
+        body:  formData
+
       });  
       
       response = await response.json();

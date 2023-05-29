@@ -20,26 +20,23 @@ class Panel extends Controller{
     async ListThingsReserved(){
 
         const allThings = await this.modelThings.getThingsReserved();                    
-        let  thingsListReserved = document.querySelector(".reserved");        
-
+        let  thingsListReserved = document.querySelector(".reserved");                
         if(!allThings.error){ 
                         
             for (let i = 0; i < allThings.result.length; ++i) {
                                 
                 let figure = document.createElement("figure");
                 let img = document.createElement("img");
-                let figCaption = document.createElement("figcaption");  
-                let returnButton = document.createElement("button");
-  
+                let figCaption = document.createElement("figcaption"); 
+                  
                 figure.setAttribute("data-id",allThings.result[i].id);                    
-                img.setAttribute("src","api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                    
+                img.setAttribute("src",allThings.result[i].image_address);                    
                 img.setAttribute("alt",allThings.result[i].description);
                 figCaption.appendChild(document.createTextNode(allThings.result[i].description));
-                returnButton.appendChild(document.createTextNode("OK"));                                                                            
+                                                                                           
                 
                 figure.appendChild(img);                
-                figure.appendChild(figCaption);                
-                figure.appendChild(returnButton);                
+                figure.appendChild(figCaption);                                
                 thingsListReserved.appendChild(figure);
                 
             }
@@ -128,19 +125,19 @@ class Panel extends Controller{
         
     } 
 
-    goToInteractionThing(){  
+    goToReservedThing(){  
         
-        let thingsList =  document.querySelectorAll(".reserved figure");       
-        console.log(thingsList)
+        let thingsList =  document.querySelectorAll(".reserved figure");              
        
         thingsList.forEach((thing)=>{
             thing.addEventListener("click", (e)=>{   
                 let id = thing.getAttribute("data-id")            
-                window.location.href = `src/views/admin/things/internalscreens/interaction/?id=${id}`;
+                window.location.href = `src/views/admin/things/internalscreens/reserved/?id=${id}&&prevPage=${this.currentPage}`;
                     
             });    
         })
        
+          
        
     }
     
@@ -157,6 +154,6 @@ panel.goToCategoryManager();
 panel.goToThingRegister();
 panel.goToReturnedThing();
 panel.goToManageThings();
-panel.goToInteractionThing();
+panel.goToReservedThing();
 
 panel.exit();

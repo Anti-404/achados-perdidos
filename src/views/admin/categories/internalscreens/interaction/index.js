@@ -27,10 +27,13 @@ class CategoriesInteraction extends Controller{
 
         document.querySelector("#update-button").addEventListener("click",(e)=>{                        
             e.preventDefault();
-
-            let form = document.querySelector('form');
+                
+            let formData = new FormData(document.querySelector('form'));
             
-            let formData = new FormData(form);                                    
+            if(localStorage.getItem("hash")){
+                formData.append('hash',localStorage.getItem("hash"));
+                
+            }
             
             this.modelCategory.update(this.prevPage,formData);           
         });
@@ -44,7 +47,14 @@ class CategoriesInteraction extends Controller{
         document.querySelector("#delete-button").addEventListener("click",(e)=>{            
             e.preventDefault();
 
-            this.modelCategory.delete(this.prevPage, id); 
+            let formData = new FormData(document.querySelector('form'));
+            
+            if(localStorage.getItem("hash")){
+                formData.append('hash',localStorage.getItem("hash"));
+                
+            } 
+            
+            this.modelCategory.delete(this.prevPage, id, formData); 
         });
 
         

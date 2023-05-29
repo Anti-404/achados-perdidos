@@ -10,7 +10,8 @@
             let confirmButton = document.querySelector("#confirm-button");
 
             confirmButton.addEventListener('click', async (e) => {            
-                e.preventDefault();        
+                e.preventDefault(); 
+                e.stopPropagation();       
                 const form = document.querySelector('#form');
                 let formData = new FormData(form);
                 
@@ -40,9 +41,18 @@
             }         
         }
         
+        recoverPassword(){
+            document.querySelector('#recover-password-button').addEventListener('click', (e)=>{
+                
+                alert("A senha foi enviada para seu email!");
+                
+            });
+        }
+
     }
 
     const adms = new Adm();
     adms.checkUserLogged();
     adms.login();
+    adms.recoverPassword();
     

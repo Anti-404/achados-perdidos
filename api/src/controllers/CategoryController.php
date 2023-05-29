@@ -3,7 +3,7 @@ namespace src\controllers;
 
 use \core\Controller;
 use \src\models\Categories;
-
+use \src\services\AuthService;
 
 class CategoryController extends Controller {
 
@@ -57,17 +57,54 @@ class CategoryController extends Controller {
     
     }
 
-    public function delete($id){
-        if($id) {            
-            Categories::delete()->where('id',$id['id'])->execute(); 
-            $array['error'] = '';               
+    public function getCategoryByName($name){
+        $category = Categories::select()->where('name', $name)->get();
+
+        if($name) {
+            
+            if(count($category) > 0){                
+    
+                $this->array['result'] = [
+                    'id' => $category[0]['id'],
+                    'name' => $category[0]['name']
+                ];
+    
+            } else {
+                $this->array['error'] = 'ID inexistente';
+            }
 
         } else {
-            $array['error'] = 'ID não enviado';
+            $this->array['error'] = 'ID não enviado';
         } 
         
         
-        echo json_encode($array);
+        echo json_encode($this->array);
+        exit;
+    
+    }
+
+    public function delete($id){
+
+        $input = json_decode(file_get_contents('php://input'));
+        $hash = $input->hash ?? null;        
+
+        if(!(AuthService::checkHash($hash))){
+            $this->array['error'] = "Acesso negado. Contate o Administrador";            
+            
+            echo json_encode($this->array);
+            exit;
+        }
+
+        if($id) {            
+            Categories::delete()->where('id',$id['id'])->execute(); 
+            $this->array['error'] = '';               
+
+        } else {
+            $this->array['error'] = 'ID não enviado';
+        } 
+        
+        
+        echo json_encode($this->array);
         exit;
     
     }
@@ -109,7 +146,15 @@ class CategoryController extends Controller {
         
     }
     
-    public function insert(){        
+    public function insert(){   
+        
+        $hash = filter_input(INPUT_POST, 'hash');        
+        if(!(AuthService::checkHash($hash))){
+            $this->array['error'] = 'Acesso negado. Contate o Administrador';
+            
+            echo json_encode($this->array);
+            exit;
+        }
 
         $name = filter_input(INPUT_POST, 'name');        
 
