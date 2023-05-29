@@ -17,51 +17,48 @@ class Things extends Controller{
 
         const allThings = await this.modelThings.getAll();            
         let  thingsList = document.querySelector(".things-list");
-
+        
         if(!allThings.error){ 
-            
+                
             for (let i = 0; i < allThings.result.length; ++i) {
-                let div  = document.createElement("div");
-                let p  = document.createElement("p");                
+                let a  = document.createElement("a");
                 let figure = document.createElement("figure");
                 let img = document.createElement("img");
                 let figCaption = document.createElement("figcaption");             
-                                                       
-                div.setAttribute("data-id",allThings.result[i].id);                        
-                p.appendChild(document.createTextNode("Código: "+allThings.result[i].id));                  
-                img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
-                img.setAttribute("alt",allThings.result[i].description);                                                        
+                let span = document.createElement("span");             
+                let p = document.createElement("p");             
+                
+
+                p.appendChild(document.createTextNode("Código: "+allThings.result[i].id)); 
+                a.setAttribute("href",`./src/views/admin/things/internalscreens/interaction?id=${allThings.result[i].id}&&prevPage=${this.currentPage}`);
+                figure.setAttribute("data-id",allThings.result[i].id);                        
+                img.setAttribute("src",allThings.result[i].image_address);                        
+                img.setAttribute("alt",allThings.result[i].description);  
+                
+                document.querySelectorAll('#categories-list option').forEach((item)=>{
+                                    
+                    if(allThings.result[i].category_id == item.getAttribute('value')){
+                        span.appendChild(document.createTextNode(item.innerHTML));                  
+                        return;
+                    }
+                });                                                                                         
                 figCaption.appendChild(document.createTextNode(allThings.result[i].description));
                  
                 figure.appendChild(img);
-                figure.appendChild(figCaption); 
-                div.appendChild(p);
-                div.appendChild(figure);
-                thingsList.appendChild(div);
+                figure.appendChild(figCaption);                     
+                a.appendChild(p);
+                a.appendChild(span);
+                a.appendChild(figure);
+                
+                thingsList.appendChild(a);
                 
             }
 
             
-        } 
+        }
 
     }
-
-    goToInteraction(){  
         
-        let thingsList =  document.querySelectorAll(".things-list div");       
-        
-       
-        thingsList.forEach((thing)=>{
-            thing.addEventListener("click", (e)=>{   
-                let id = thing.getAttribute("data-id")            
-                window.location.href = `src/views/admin/things/internalscreens/interaction/?id=${id}&&prevPage=${this.currentPage}`;
-                    
-            });    
-        })
-       
-       
-    }
-
     goToRegisterthing(){
         document.querySelector("#register-things-button").addEventListener("click",(e)=>{            
             e.preventDefault();              
@@ -104,29 +101,40 @@ class Things extends Controller{
             if(!allThings.error){ 
                 
                 for (let i = 0; i < allThings.result.length; ++i) {
-                    let a = document.createElement("a");
-                    let p = document.createElement("p");
+                    let a  = document.createElement("a");
                     let figure = document.createElement("figure");
                     let img = document.createElement("img");
                     let figCaption = document.createElement("figcaption");             
-                                                            
-                    a.setAttribute("data-id",allThings.result[i].id);                                                            
-                    p.appendChild(document.createTextNode("Código: "+allThings.result[i].id));                                                            
-                    img.setAttribute("src","http://localhost/smd/projeto/api/"+(allThings.result[i].image_address).substring(3,(allThings.result[i].image_address).length));                        
-                    img.setAttribute("alt",allThings.result[i].description);                                                        
+                    let span = document.createElement("span");             
+                    let p = document.createElement("p");             
+                    
+    
+                    p.appendChild(document.createTextNode("Código: "+allThings.result[i].id)); 
+                    a.setAttribute("href",`./src/views/admin/things/internalscreens/interaction?id=${allThings.result[i].id}`);
+                    figure.setAttribute("data-id",allThings.result[i].id);                        
+                    img.setAttribute("src",allThings.result[i].image_address);                        
+                    img.setAttribute("alt",allThings.result[i].description);  
+                    document.querySelectorAll('#categories-list option').forEach((item)=>{
+                                        
+                        if(allThings.result[i].category_id == item.getAttribute('value')){
+                            span.appendChild(document.createTextNode(item.innerHTML));                  
+                            return;
+                        }
+                    });                                                                                         
                     figCaption.appendChild(document.createTextNode(allThings.result[i].description));
-                    
+                     
                     figure.appendChild(img);
-                    figure.appendChild(figCaption);
-                    
+                    figure.appendChild(figCaption);                     
                     a.appendChild(p);
+                    a.appendChild(span);
                     a.appendChild(figure);
+                    
                     thingsList.appendChild(a);
                     
-                }  
+                }
     
                 
-            } 
+            }    
             
         });            
        
@@ -135,7 +143,27 @@ class Things extends Controller{
             
 
 
-    }    
+    }  
+    
+    searchItem(){       
+        document.querySelector('.search-bar input[type="text"]').addEventListener('keyup',()=>{
+            let input = document.querySelector('#search-item').value
+            input=input.toLowerCase();
+            let x = document.querySelectorAll('.things-list a');
+            
+            
+            for (let i = 0; i < x.length; i++) { 
+                 if (!x[i].outerText.toLowerCase().includes(input)) {
+                    x[i].style.display="none";
+                }
+                else {
+                    x[i].style.display="block";                 
+                }
+            }
+            
+        });
+    }
+
 
 }
 
@@ -143,8 +171,8 @@ const things = new Things();
 
 things.categoriesList();
 await things.thingsList(); // 1: "await" VERY IMPORTANT: explanation below.*
-things.goToInteraction();
 things.goToRegisterthing();
+things.searchItem();
 
 /*
 1: As this method is asynchronous, it passes to the bottom method before creating the elements, so the bottom method cannot access them. So you need to put the "await"

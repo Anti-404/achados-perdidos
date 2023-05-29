@@ -45,7 +45,7 @@ class ThingRegistration extends Controller{
             localStorage.setItem("imageAddress", document.getElementById("image-address").value); 
             localStorage.setItem("local", document.getElementById("local").value); 
             localStorage.setItem("description", document.getElementById("description").value); 
-            window.location.href = `http://localhost/smd/projeto/src/views/admin/categories/internalscreens/register/?prevPage=${this.currentPage}`;            
+            window.location.href = `src/views/admin/categories/internalscreens/register/?prevPage=${this.currentPage}`;            
         });
         
         
@@ -69,9 +69,14 @@ class ThingRegistration extends Controller{
 
     save(){        
         document.querySelector("#save-button").addEventListener("click", (e)=>{             
-            e.preventDefault();          
+            e.preventDefault();                      
+
+            let formData = new FormData(document.querySelector('form'));
             
-            let formData = new FormData(document.querySelector('form'));                        
+            if(localStorage.getItem("hash")){
+                formData.append('hash',localStorage.getItem("hash"));
+                
+            }                              
                                  
            this.modelThings.insert(this.prevPage, formData);       
             

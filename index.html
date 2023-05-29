@@ -12,12 +12,12 @@
         <div class="container">
             <div class="logo">
                 <a href=""><img src="assets/imgs/logo.png" width="40px"/></a></br>
-                <span>Achados Perdidos</span>                
+                <span>Achai</span>                
             </div>            
             
             <div class="search-bar">
-                <input type="text" />
-                <button>P</button>
+                <input type="text" id='search-item' placeholder="Ex: garrafa amarela"/>
+                <button id="search-button">P</button>
             </div>
         
         </div>
@@ -27,13 +27,12 @@
         <div class="container">
             
             <ul id = "categories-list">
-                <li><a data-id="0">Todos</a></li>
+                <!-- <li><a data-id="0">Todos</a></li> -->
             </ul>
                 
             <div class="filter-things">           
-                    <span status="0">Perdidos</span>           
-                    <span status="0">Reservados</span> 
-                    <span status="0">Devolvidos</span> 
+                    <span status="1">Perdidos</span>           
+                    <span status="0">Reservados</span>                    
             </div>
             
             <div class="things-list"></div>
