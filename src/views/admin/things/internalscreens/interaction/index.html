@@ -39,17 +39,22 @@
 
                 <label for="description">Descrição</label><br>
                 <textarea name="description" cols="30" rows="10" id="description"></textarea>
+                <br><br>                
+                
+                <!-- <label for="returned_status">Retirado</label> -->
+                <input type="hidden" name="returned_status" id="returned_status" >                  
+                
+                
+                <!-- <label for="reserved-status">Reservado</label> -->
+                <input type="hidden" name="reserved_status" id="returned-status" >  
+                
+                <!-- <br><br> -->
+                
+                
+                <button id="return-button" >Retirar</button>
+                <button id="update-button" disabled >Atualizar</button>
                 <br><br>
-            
-                <label for="returned-status">Retirado</label>
-                <input type="number" name="returned_status" id="returned-status" >                  
-
-                    <label for="reserved-status">Reservado</label>
-                <input type="number" name="reserved_status" id="reserved-status" >  
-                <br><br>                  
-        
-                <button id="update-button" disabled >Editar</button>
-                <button id="delete-button">Excluir</button>
+                <!-- <button id="delete-button">Excluir</button> -->
             </form>
             
         </div>

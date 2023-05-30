@@ -86,13 +86,36 @@ class ThingsInteraction extends Controller{
                 formData.append('hash',localStorage.getItem("hash"));
                 
             }
-
+            
             this.modelThings.update( this.prevPage, formData); 
         });
 
 
     }
+    async return(){
 
+        document.querySelector("#return-button").addEventListener("click",(e)=>{  
+            e.preventDefault();
+
+            let formData = new FormData(document.querySelector('form'));  
+            formData.set('returned_status','1');
+            
+            if(localStorage.getItem("hash")){
+                formData.append('hash',localStorage.getItem("hash"));
+                
+            }
+            
+            this.modelThings.update( this.prevPage, formData, 'Retirado'); 
+        });
+
+
+    }
+
+    
+
+
+
+    /*
     delete(){        
 
         document.querySelector("#delete-button").addEventListener("click",(e)=>{  
@@ -107,6 +130,7 @@ class ThingsInteraction extends Controller{
             this.modelThings.delete(this.prevPage, this.identifier, formData); 
         });
     }
+    */
 
     enableButton(...fields){
 
@@ -148,7 +172,8 @@ class ThingsInteraction extends Controller{
 const thingsInteraction = new ThingsInteraction();
 thingsInteraction.getThing();
 thingsInteraction.update();
-thingsInteraction.delete();
-thingsInteraction.enableButton("image-address","image-address-update", "local", "list-categories", "description", "returned-status", "reserved-status");
+thingsInteraction.return();
+//thingsInteraction.delete();
+thingsInteraction.enableButton("image-address","image-address-update", "local", "list-categories", "description");
 thingsInteraction.handlerPageBack();
 thingsInteraction.goToCategoryRegistration();

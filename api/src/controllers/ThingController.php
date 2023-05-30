@@ -78,7 +78,8 @@ class ThingController extends Controller {
                                 'date' => $item['date'],
                                 'reserved_status' => $item['reserved_status'],                                           
                                 'returned_status' => $item['returned_status'],                                           
-                                'category_id' => $item['category_id']                            
+                                'category_id' => $item['category_id'],                            
+                                'date' => $item['date'],                            
                         ];
                      }
                     
@@ -377,8 +378,8 @@ class ThingController extends Controller {
             $file = $_FILES['image_address'];        
             $extensionUploadedImage = explode('/',$_FILES['image_address']['type'])[1];
             
-            $description = filter_input(INPUT_POST, 'description');
-            $local = filter_input(INPUT_POST, 'local');    
+            $description = filter_input(INPUT_POST, 'description')??null;
+            $local = filter_input(INPUT_POST, 'local')??null;    
             $categoryId = filter_input(INPUT_POST, 'category_id');
                   
             if(isset($file['tmp_name']) && !empty($file['tmp_name'])){
@@ -428,8 +429,8 @@ class ThingController extends Controller {
 
         $id = filter_input(INPUT_POST, 'id');
         $pathImageAddressDB = filter_input(INPUT_POST, 'image_address');
-        $description = filter_input(INPUT_POST, 'description');
-        $local = filter_input(INPUT_POST, 'local');
+        $description = filter_input(INPUT_POST, 'description')??null;
+        $local = filter_input(INPUT_POST, 'local')??null;
         $returnedStatus = filter_input(INPUT_POST, 'returned_status');        
         $reservedStatus = filter_input(INPUT_POST, 'reserved_status');        
         $categoryId = filter_input(INPUT_POST, 'category_id');        
@@ -527,8 +528,8 @@ class ThingController extends Controller {
         */    
         try{
             //print_r(array($toMail, $subject, $body, implode('\r\n',$headers))); exit;
-            mail($toMail, $subject, $body, $headers);
-            $this->array['error'] = '';               
+            //mail($toMail, $subject, $body, $headers);
+            $this->array['result'] = 'Email enviado com sucesso';               
         }catch(Exception $e){
             $this->array['error'] = $e->getMessage(); 
         }

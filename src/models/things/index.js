@@ -129,9 +129,9 @@ export default class ModelThings extends Model{
           method: "POST",            
           body:  formData          
         });  
-        console.log(await response.text());
-        //response = await response.json();        
-        //return response;                 
+        
+        response = await response.json();        
+        return response;                 
         
       } catch (error) {
         console.log('Erro no codigo do sistema: '+error);

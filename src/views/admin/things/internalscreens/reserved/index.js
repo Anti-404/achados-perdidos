@@ -74,7 +74,7 @@ class ThingsReserved extends Controller{
 
         
     } 
-    
+    /*
     async update(){
 
         document.querySelector("#update-button").addEventListener("click",(e)=>{  
@@ -90,6 +90,7 @@ class ThingsReserved extends Controller{
 
 
     }
+    
 
     delete(){
         
@@ -114,6 +115,8 @@ class ThingsReserved extends Controller{
 
     }
 
+    */
+
     handlerPageBack(){
         document.querySelector("#back").addEventListener('click',()=>{
             window.history.back();
@@ -135,12 +138,33 @@ class ThingsReserved extends Controller{
 
         });
     } 
+
+    async return(){
+
+        document.querySelector("#return-button").addEventListener("click",(e)=>{  
+            e.preventDefault();
+
+            let formData = new FormData(document.querySelector('form'));  
+            formData.set('returned_status','1');
+            
+            if(localStorage.getItem("hash")){
+                formData.append('hash',localStorage.getItem("hash"));
+                
+            }
+            
+            this.modelThings.update( this.prevPage, formData, 'Retirado'); 
+        });
+
+    }
+
+
 }
 
 const thingsReserved = new ThingsReserved();
 thingsReserved.getThing();
-thingsReserved.update();
-thingsReserved.delete();
-thingsReserved.enableButton("image-address","image-address-update", "local", "list-categories", "description", "returned-status", "reserved-status");
+//thingsReserved.update();
+//thingsReserved.delete();
+//thingsReserved.enableButton("image-address","image-address-update", "local", "list-categories", "description", "returned-status", "reserved-status");
 thingsReserved.handlerPageBack();
 thingsReserved.goToCategoryRegistration();
+thingsReserved.return();
