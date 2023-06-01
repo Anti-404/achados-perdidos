@@ -373,14 +373,18 @@ class ThingController extends Controller {
             echo json_encode($this->array);
             exit;
         }
-       
-       if(isset($_FILES['image_address']) && !empty($_FILES['image_address'])){
-            $file = $_FILES['image_address'];        
-            $extensionUploadedImage = explode('/',$_FILES['image_address']['type'])[1];
-            
-            $description = filter_input(INPUT_POST, 'description')??null;
-            $local = filter_input(INPUT_POST, 'local')??null;    
-            $categoryId = filter_input(INPUT_POST, 'category_id');
+        
+        $imageAddres = filter_input(INPUT_POST, 'image_address_can');
+        
+        $file = $_FILES['image_address'];        
+        $extensionUploadedImage = explode('/',$_FILES['image_address']['type'])[1];
+        
+        $description = filter_input(INPUT_POST, 'description')??null;
+        $local = filter_input(INPUT_POST, 'local')??null;    
+        $categoryId = filter_input(INPUT_POST, 'category_id');
+
+
+       if(isset($_FILES['image_address']) && !empty($_FILES['image_address'])){            
                   
             if(isset($file['tmp_name']) && !empty($file['tmp_name'])){
                 $nameImg = md5(time().rand(0,99));
@@ -389,33 +393,35 @@ class ThingController extends Controller {
                 
                 move_uploaded_file($file['tmp_name'], $localPathImageAddres);                   
 
-                $this->compressImage($localPathImageAddres, 300,-1, $localPathImageAddres, 50);
-                
+                $this->compressImage($localPathImageAddres, 300,-1, $localPathImageAddres, 50);               
 
-                if($categoryId)  {   
-                    Things::insert(
-                        [   
-                            'image_address' => $imageAddres,
-                            'description'=>$description,
-                            'local'=>$local,
-                            'category_id'=>$categoryId
-                        ]
-                    )->execute();            
-                            
-
-                } else {
-                    $this->array['error'] = 'data não enviados';
-                } 
-                
-                
+                                
             }       
-            
                 
                 
-                
-                echo json_encode($this->array);
-                exit;
         }
+
+
+        if($categoryId)  {   
+            Things::insert(
+                [   
+                    'image_address' => $imageAddres,
+                    'description'=>$description,
+                    'local'=>$local,
+                    'category_id'=>$categoryId
+                ]
+            )->execute();            
+                    
+
+        } else {
+            $this->array['error'] = 'data não enviados';
+        } 
+        
+        echo json_encode($this->array);
+        exit;
+
+
+
     }
     
     public function update(){  

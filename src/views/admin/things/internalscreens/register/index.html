@@ -14,17 +14,26 @@
         </div>
     </header>
     
-    <section>   
+    <main>   
 
         <div class="container" >  
-                    
-            <form action="" method="post">
-                
-                <input type="hidden" name="id">   
-
-                <label for="">End IMG</label><br>                
+            <div class="take-picture">
+                <video autoplay></video><br>
+                <canvas></canvas><br>           
+                <button id="take-picture-button">Tirar foto</button>                     
+            </div>
+            <div>
+                <img id="img-picture"/>
+            </div> 
+            <div id="take-picture-again-button">                
+                <button id="take-picture-again-button">Tirar outra foto</button>
+            </div>                   
+            <br>
+            <form action="" method="post">                
+                <input type="hidden" name="id" id="id">                                                                   
+                                                       
                 <input type="file" name="image_address" id="image-address">
-                <br><br>                
+                <br> <br>
 
                 <label for="">Categorias</label><br>
                 <select name="category_id" id="category-id"></select>
@@ -43,7 +52,7 @@
                 <button id="save-button">Cadastrar</button>
             </form>            
         </div>
-    </section>
+    </main>
     
     <script type = "module" src="index.js" ></script>    
     <script src="../../../../../../assets/js/utilities.js"></script>

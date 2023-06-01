@@ -11,6 +11,7 @@ class ThingRegistration extends Controller{
         this.modelThings = new  ModelThings();
         this.prevPage = this.getPrevPageURL();       
         this.currentPage = this.retrieveURLCurrentPage();
+        this.takePictureBlob = "empty";
         
     }
 
@@ -72,6 +73,10 @@ class ThingRegistration extends Controller{
             e.preventDefault();                      
 
             let formData = new FormData(document.querySelector('form'));
+
+            if ( !(typeof this.takePictureBlob === 'string')) {                
+                formData.set('image_address', this.takePictureBlob);
+            }
             
             if(localStorage.getItem("hash")){
                 formData.append('hash',localStorage.getItem("hash"));
@@ -89,6 +94,70 @@ class ThingRegistration extends Controller{
             window.history.back();
         });
     }
+
+    takePicture(){
+
+        let video = document.querySelector('.take-picture video');
+
+        navigator.mediaDevices.getUserMedia({video:{width: 320}})
+        .then(stream => {
+            video.srcObject = stream;
+            video.play();
+        })
+        .catch(error => {
+            console.log(error);
+        })
+
+        document.querySelector('canvas').style.display = 'none';
+        
+        if(!document.querySelector("#take-picture-again-button").style.display){
+            document.querySelector("#take-picture-again-button").style.display = "none";
+        } 
+
+        document.querySelector('#take-picture-button').addEventListener('click', async () => {
+
+            let canvas = document.querySelector('canvas');            
+            
+            canvas.height = video.videoHeight;            
+            canvas.width = video.videoWidth;
+            
+            let context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0);                        
+            
+            let img = document.querySelector('#img-picture');
+            img.src = canvas.toDataURL('image/png');            
+            let takePicture = document.querySelector('.take-picture');
+            takePicture.style.display = 'none';            
+
+            try {            
+                const response = await fetch(img.src);                           
+                let blob = await response.blob();
+                
+                console.log(blob);
+                this.takePictureBlob = blob;
+
+                            
+              } catch(e) {
+                console.log(e);
+              } 
+
+              document.querySelector("#take-picture-again-button").style.marginTop = "13px";  
+              document.querySelector("#take-picture-again-button").style.display = "block";  
+              
+            
+        });       
+
+    }
+
+    insertElementDOMAfter(newElement, reference) {
+        reference.parentNode.insertBefore(newElement, reference.nextSibling);
+    }
+    
+    takePictureAgainButton(){
+        document.querySelector('#take-picture-again-button').addEventListener('click',()=>{
+            location.reload(true);
+        });
+    }
     
     
 }
@@ -100,3 +169,5 @@ thingRegistration.save();
 thingRegistration.clearRedirProdRegLocalStorage();
 thingRegistration.putDataBackForms();
 thingRegistration.handlerPageBack();
+thingRegistration.takePicture();
+thingRegistration.takePictureAgainButton();
